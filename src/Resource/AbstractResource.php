@@ -76,7 +76,7 @@ abstract class AbstractResource
 
             if (isset($content['error'])) {
                 $errors = $content['error'];
-            } elseif(isset($content['errors'])) {
+            } elseif (isset($content['errors'])) {
                 $errors = $content['errors'];
             }
 
