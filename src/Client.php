@@ -2,6 +2,7 @@
 
 namespace ShopifyClient;
 
+use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\Order;
 use ShopifyClient\Resource\Product;
 use ShopifyClient\Resource\ProductVariant;
@@ -29,10 +30,13 @@ class Client
      * @var Resource[]
      */
     private $resources = [
-        'orders'   => [
+        'customers' => [
+            'class' => Customer::class,
+        ],
+        'orders'    => [
             'class' => Order::class,
         ],
-        'products' => [
+        'products'  => [
             'class'     => Product::class,
             'resources' => [
                 'variants' => [
@@ -41,6 +45,11 @@ class Client
             ],
         ],
     ];
+
+    /**
+     * @var Customer
+     */
+    public $customers;
 
     /**
      * @var Order

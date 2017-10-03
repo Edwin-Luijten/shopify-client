@@ -8,11 +8,11 @@ namespace ShopifyClient\Resource;
 class Customer extends AbstractResource
 {
     /**
-     * @param int $id
+     * @param float $id
      * @param array $fields
      * @return array
      */
-    public function get(int $id, array $fields = [])
+    public function get(float $id, array $fields = [])
     {
         $response = $this->request('GET', sprintf('/admin/customers/%s.json', $id), [
             'query' => [
@@ -42,7 +42,7 @@ class Customer extends AbstractResource
      */
     public function search(array $query = [])
     {
-        $response = $this->request('GET', '/admin/search.json', [
+        $response = $this->request('GET', '/admin/customers/search.json', [
             'query' => $query
         ]);
 
@@ -68,42 +68,42 @@ class Customer extends AbstractResource
      */
     public function create(array $params = [])
     {
-        $response =  $this->request('POST', '/admin/customers.json', [
-            'form_params' => $params
+        $response = $this->request('POST', '/admin/customers.json', [
+            'body' => json_encode(['customer' => $params])
         ]);
 
         return $response['customer'];
     }
 
     /**
-     * @param int $id
+     * @param float $id
      * @param array $params
      * @return array
      */
-    public function update(int $id, array $params = [])
+    public function update(float $id, array $params = [])
     {
         $response = $this->request('PUT', sprintf('/admin/customers/%s.json', $id), [
-            'form_params' => $params
+            'body' => json_encode(['customer' => $params])
         ]);
 
         return $response['customer'];
     }
 
     /**
-     * @param int $id
+     * @param float $id
      */
-    public function delete(int $id)
+    public function delete(float $id)
     {
         $this->request('DELETE', sprintf('/admin/customers/%s.json', $id));
     }
 
     /**
-     * @param int $id
+     * @param float $id
      * @return array
      */
-    public function orders(int $id)
+    public function orders(float $id)
     {
-        $response =  $this->request('GET', sprintf('/admin/customers/%s/orders.json', $id));
+        $response = $this->request('GET', sprintf('/admin/customers/%s/orders.json', $id));
 
         return $response['orders'];
     }

@@ -13,13 +13,13 @@ class Order extends AbstractResource
     protected $countable = true;
 
     /**
-     * @param int $id
+     * @param float $id
      * @param array $fields
      * @return array
      */
-    public function get(int $id, array $fields = [])
+    public function get(float $id, array $fields = [])
     {
-        $response =  $this->request('GET', sprintf('/admin/orders/%s.json', $id), [
+        $response = $this->request('GET', sprintf('/admin/orders/%s.json', $id), [
             'query' => [
                 'fields' => $fields
             ]
@@ -34,7 +34,7 @@ class Order extends AbstractResource
      */
     public function all(array $query = [])
     {
-        $response =  $this->request('GET', '/admin/orders.json', [
+        $response = $this->request('GET', '/admin/orders.json', [
             'query' => $query
         ]);
 
@@ -47,7 +47,7 @@ class Order extends AbstractResource
      */
     public function count(array $query = [])
     {
-        $response =  $this->request('GET', '/admin/orders/count.json', [
+        $response = $this->request('GET', '/admin/orders/count.json', [
             'query' => $query
         ]);
 
@@ -55,36 +55,39 @@ class Order extends AbstractResource
     }
 
     /**
-     * @param int $id
+     * @param float $id
      * @return array
      */
-    public function open(int $id)
+    public function open(float $id)
     {
-        $response =  $this->request('POST', sprintf('/admin/orders/%s/open.json', $id));
+        $response = $this->request('POST', sprintf('/admin/orders/%s/open.json', $id));
 
         return $response['order'];
     }
 
     /**
-     * @param int $id
-     * @return array
-     */
-    public function close(int $id)
-    {
-        $response =  $this->request('POST', sprintf('/admin/orders/%s/close.json', $id));
-
-        return $response['order'];
-    }
-
-    /**
-     * @param int $id
+     * @param float $id
      * @param array $params
      * @return array
      */
-    public function cancel(int $id, array $params = [])
+    public function close(float $id, array $params = [])
+    {
+        $response = $this->request('POST', sprintf('/admin/orders/%s/close.json', $id), [
+            'body' => json_encode($params)
+        ]);
+
+        return $response['order'];
+    }
+
+    /**
+     * @param float $id
+     * @param array $params
+     * @return array
+     */
+    public function cancel(float $id, array $params = [])
     {
         $response = $this->request('POST', sprintf('/admin/orders/%s/cancel.json', $id), [
-            'form_params' => $params
+            'body' => json_encode($params)
         ]);
 
         return $response['order'];
@@ -96,31 +99,35 @@ class Order extends AbstractResource
      */
     public function create(array $params = [])
     {
-        $response =  $this->request('POST', '/admin/orders.json', [
-            'form_params' => $params
+        $response = $this->request('POST', '/admin/orders.json', [
+            'body' => json_encode([
+                'order' => $params,
+            ]),
         ]);
 
         return $response['order'];
     }
 
     /**
-     * @param int $id
+     * @param float $id
      * @param array $params
      * @return array
      */
-    public function update(int $id, array $params = [])
+    public function update(float $id, array $params = [])
     {
         $response = $this->request('PUT', sprintf('/admin/orders/%s.json', $id), [
-            'form_params' => $params
+            'body' => json_encode([
+                'order' => $params,
+            ]),
         ]);
 
         return $response['order'];
     }
 
     /**
-     * @param int $id
+     * @param float $id
      */
-    public function delete(int $id)
+    public function delete(float $id)
     {
         $this->request('DELETE', sprintf('/admin/orders/%s.json', $id));
     }

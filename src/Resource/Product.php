@@ -24,7 +24,7 @@ class Product extends AbstractResource
      */
     public function get(float $id, array $fields = [])
     {
-        $response =  $this->request('GET', sprintf('/admin/products/%s.json', $id), [
+        $response = $this->request('GET', sprintf('/admin/products/%s.json', $id), [
             'query' => [
                 'fields' => $fields
             ]
@@ -65,8 +65,10 @@ class Product extends AbstractResource
      */
     public function create(array $params = [])
     {
-        $response =  $this->request('POST', '/admin/products.json', [
-            'form_params' => $params
+        $response = $this->request('POST', '/admin/products.json', [
+            'body' => json_encode([
+                'product' => $params,
+            ]),
         ]);
 
         return $response['product'];
@@ -80,7 +82,9 @@ class Product extends AbstractResource
     public function update(float $id, array $params = [])
     {
         $response = $this->request('PUT', sprintf('/admin/products/%s.json', $id), [
-            'form_params' => $params
+            'body' => json_encode([
+                'product' => $params,
+            ]),
         ]);
 
         return $response['product'];
