@@ -11,7 +11,7 @@ before_script:
 
 script:
   - ./vendor/bin/phpcs --standard=psr2 src/
-  - ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --configuration=./phpunit.xml
+  - ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --configuration=phpunit.xml
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
