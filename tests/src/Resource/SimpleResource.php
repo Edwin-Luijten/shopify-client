@@ -23,6 +23,8 @@ abstract class SimpleResource extends Resource
 
     public function testAll()
     {
+        print_r(static::$client);
+        
         $results = static::$client->{$this->resource}->all();
 
         $this->assertNotEmpty($results);
