@@ -10,12 +10,7 @@
          stopOnFailure="false"
          syntaxCheck="false"
 >
-    <php>
-        <env name="SHOPIFY_DOMAIN" value="foo"/>
-        <env name="SHOPIFY_KEY" value="bar"/>
-        <env name="SHOPIFY_SECRET" value="baz"/>
-        <env name="SHOPIFY_ORDER_VARIANT_ID" value="baz"/>
-    </php>
+
     <logging>
         <log type="coverage-html"
              target="./build/coverage/html"
