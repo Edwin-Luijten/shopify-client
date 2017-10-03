@@ -23,8 +23,6 @@ abstract class SimpleResource extends Resource
 
     public function testAll()
     {
-        var_dump(static::$client); die();
-
         $results = static::$client->{$this->resource}->all();
 
         $this->assertNotEmpty($results);
@@ -42,7 +40,6 @@ abstract class SimpleResource extends Resource
                     ]);
                 }));
             }
-
 
             $this->assertEquals($count, count($items));
         }

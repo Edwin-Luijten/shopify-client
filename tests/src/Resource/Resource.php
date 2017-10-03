@@ -5,7 +5,8 @@ namespace ShopifyClient\Tests\Resource;
 use PHPUnit\Framework\TestCase;
 use ShopifyClient\Client;
 
-abstract class Resource extends TestCase {
+abstract class Resource extends TestCase
+{
     /**
      * @var Client $client;
      */

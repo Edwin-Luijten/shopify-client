@@ -104,6 +104,12 @@ for($i = 0; $i <= $pages; $i++) {
 
 ## Testing
 
+Set some environment variables first:  
+- SHOPIFY_DOMAIN  
+- SHOPIFY_KEY  
+- SHOPIFY_SECRET  
+- SHOPIFY_ORDER_VARIANT_ID  
+
 ``` bash
 $ ./vendor/bin/phpunit
 ```
