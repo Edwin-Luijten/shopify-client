@@ -46,8 +46,8 @@ abstract class SimpleResource extends Resource
         }
     }
 
-    public function testCreate() {
-
+    public function testCreate()
+    {
         if ($this->postArray) {
             $item = static::$client->{$this->resource}->create($this->postArray);
 
@@ -56,24 +56,55 @@ abstract class SimpleResource extends Resource
 
             return $item['id'];
         }
+
+        $this->markTestSkipped(
+            sprintf('%s resource does not have this method available.', $this->resource)
+        );
     }
 
     /**
      * @depends testCreate
      * @param $id
      */
-    public function testUpdate($id) {
+    public function testGet($id)
+    {
+        $item = static::$client->{$this->resource}->get($id);
+
+        $this->assertSame($item['id'], $id);
+
+        return $id;
+    }
+
+    /**
+     * @depends testGet
+     * @param $id
+     */
+    public function testUpdate($id)
+    {
         if ($this->putArray) {
-            $item = static::$client->{$this->resource}->update($id, $this->postArray);
+            $item = static::$client->{$this->resource}->update($id, $this->putArray);
 
             $this->assertTrue(is_array($item));
             $this->assertNotEmpty($item);
 
-            foreach($this->putArray as $key => $value) {
-                foreach ($value as $field => $val) {
-                    $this->assertEquals($val, $item[$field]);
-                }
+            foreach ($this->putArray as $key => $value) {
+                $this->assertEquals($value, $item[$key]);
             }
+        } else {
+            $this->markTestSkipped(
+                sprintf('%s resource does not have this method available.', $this->resource)
+            );
         }
+    }
+
+    /**
+     * @depends testGet
+     * @param $id
+     */
+    public function testDelete($id)
+    {
+        static::$client->{$this->resource}->delete($id);
+
+        $this->assertTrue(true);
     }
 }
