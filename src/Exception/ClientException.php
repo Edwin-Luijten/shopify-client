@@ -44,7 +44,13 @@ class ClientException extends \Exception
         $error = '';
 
         foreach ($this->errors as $key => $value) {
-            $error .= sprintf('%s%s.', !is_numeric($key) ? $key . ': ' : '', $value) . PHP_EOL;
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    $error .= sprintf('%s%s.', !is_numeric($key) ? $key . ': ' : '', $v) . PHP_EOL;
+                }
+            } else {
+                $error .= sprintf('%s%s.', !is_numeric($key) ? $key . ': ' : '', $value) . PHP_EOL;
+            }
         }
 
         return $error;
