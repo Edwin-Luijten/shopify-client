@@ -13,6 +13,11 @@ class Customer extends AbstractResource
     protected $countable = true;
 
     /**
+     * @var CustomerAddress
+     */
+    public $addresses;
+
+    /**
      * @param float $id
      * @param array $fields
      * @return array

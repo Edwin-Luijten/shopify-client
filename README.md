@@ -60,7 +60,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [ ] Country  
 - [ ] CustomCollection  
 - [x] Customer  
-- [ ] CustomerAddress  
+- [x] CustomerAddress  
 - [ ] CustomerSavedSearch  
 - [ ] DiscountCode  
 - [ ] DraftOrder  
@@ -108,7 +108,7 @@ Set some environment variables first:
 - SHOPIFY_DOMAIN  
 - SHOPIFY_KEY  
 - SHOPIFY_SECRET  
-- SHOPIFY_ORDER_VARIANT_ID  
+- SHOPIFY_PRODUCT_VARIANT_ID  
 
 ``` bash
 $ ./vendor/bin/phpunit

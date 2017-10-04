@@ -4,6 +4,16 @@ namespace ShopifyClient\Tests\Resource;
 
 class CustomersTest extends SimpleResource
 {
+    /**
+     * @var array
+     */
+    private $postAddressArray = [];
+
+    /**
+     * @var array
+     */
+    private $putAddressArray = [];
+
     public function setUp()
     {
         parent::setUp();
@@ -17,6 +27,27 @@ class CustomersTest extends SimpleResource
         $this->putArray = [
             'first_name' => 'Bar',
             'last_name'  => 'Foo',
+        ];
+
+        $this->postAddressArray = [
+            'address1'      => '1 Rue des Carrieres',
+            'address2' => 'Suite 1234',
+            'city'  => 'Montreal',
+            'company' => 'Fancy Co.',
+            'first_name' => 'Samuel',
+            'last_name' => 'de Champlain',
+            'phone' => '819-555-5555',
+            'province' => 'Quebec',
+            'country' => 'Canada',
+            'zip' => 'G1R 4P5',
+            'name' => 'Samuel de Champlain',
+            'province_code' => 'QC',
+            'country_code' => 'CA',
+            'country_name' => 'Canada',
+        ];
+
+        $this->putAddressArray = [
+            'zip' => '90210',
         ];
     }
 
@@ -110,6 +141,82 @@ class CustomersTest extends SimpleResource
     public function testUpdate($id)
     {
         parent::testUpdate($id);
+    }
+
+    /**
+     * @depends testGet
+     * @param $id
+     * @return array
+     */
+    public function testCreateAddress($id)
+    {
+        $item = static::$client->customers->addresses->create($id, $this->postAddressArray);
+
+        $this->assertTrue(is_array($item));
+        $this->assertNotEmpty($item);
+
+        foreach ($this->postAddressArray as $key => $value) {
+            $this->assertEquals($value, $item[$key]);
+        }
+
+        return [
+            'customerId' => $id,
+            'id'        => $item['id'],
+        ];
+    }
+
+    /**
+     * @depends testGet
+     * @param $id
+     */
+    public function testAllAddresses($id)
+    {
+        $results = static::$client->customers->addresses->all($id);
+
+        $this->assertNotEmpty($results);
+    }
+
+    /**
+     * @depends testCreateAddress
+     * @param array $ids
+     * @return array
+     */
+    public function testGetAddress(array $ids)
+    {
+        $item = static::$client->customers->addresses->get($ids['customerId'], $ids['id']);
+
+        $this->assertSame($item['id'], $ids['id']);
+
+        return $ids;
+    }
+
+    /**
+     * @depends testGetAddress
+     * @param array $ids
+     */
+    public function testUpdateAddress(array $ids)
+    {
+        $item = static::$client->customers->addresses->update($ids['customerId'], $ids['id'], $this->putAddressArray);
+
+        $this->assertTrue(is_array($item));
+        $this->assertNotEmpty($item);
+
+        foreach ($this->putAddressArray as $key => $value) {
+            $this->assertEquals($value, $item[$key]);
+        }
+    }
+
+    /**
+     * @depends testGetAddress
+     * @param array $ids
+     * @expectedException \ShopifyClient\Exception\ClientException
+     */
+    public function testDeleteAddress(array $ids)
+    {
+        // Trying to remove a customers default address results in a failure
+        static::$client->customers->addresses->delete($ids['customerId'], $ids['id']);
+
+        $this->assertTrue(true);
     }
 
     /**

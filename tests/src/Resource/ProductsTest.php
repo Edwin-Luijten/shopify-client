@@ -19,11 +19,6 @@ class ProductsTest extends SimpleResource
      */
     private $postImageArray = [];
 
-    /**
-     * @var array
-     */
-    private $putImageArray = [];
-
     public function setUp()
     {
         parent::setUp();

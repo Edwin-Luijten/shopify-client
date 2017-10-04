@@ -3,6 +3,7 @@
 namespace ShopifyClient;
 
 use ShopifyClient\Resource\Customer;
+use ShopifyClient\Resource\CustomerAddress;
 use ShopifyClient\Resource\Order;
 use ShopifyClient\Resource\OrderRisk;
 use ShopifyClient\Resource\Product;
@@ -33,7 +34,12 @@ class Client
      */
     private $resources = [
         'customers' => [
-            'class' => Customer::class,
+            'class'     => Customer::class,
+            'resources' => [
+                'addresses' => [
+                    'class' => CustomerAddress::class,
+                ],
+            ],
         ],
         'orders'    => [
             'class'     => Order::class,
