@@ -2,4 +2,6 @@
 
 namespace ShopifyClient\Exception;
 
-class ResourceException extends \Exception {}
+class ResourceException extends \Exception
+{
+}

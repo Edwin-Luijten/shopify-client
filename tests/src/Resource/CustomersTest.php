@@ -119,7 +119,7 @@ class CustomersTest extends SimpleResource
             'query' => $this->postArray['first_name'],
         ]);
 
-        $this->assertEmpty($customers);
+        $this->assertSame($customers[0]['first_name'], $this->postArray['first_name']);
     }
 
     /**
