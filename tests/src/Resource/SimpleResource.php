@@ -2,7 +2,9 @@
 
 namespace ShopifyClient\Tests\Resource;
 
-abstract class SimpleResource extends Resource
+use ShopifyClient\Tests\BaseTest;
+
+abstract class SimpleResource extends BaseTest
 {
     private $resource;
 

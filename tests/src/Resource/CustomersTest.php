@@ -30,20 +30,38 @@ class CustomersTest extends SimpleResource
         ];
 
         $this->postAddressArray = [
-            'address1'      => '1 Rue des Carrieres',
-            'address2' => 'Suite 1234',
-            'city'  => 'Montreal',
-            'company' => 'Fancy Co.',
-            'first_name' => 'Samuel',
-            'last_name' => 'de Champlain',
-            'phone' => '819-555-5555',
-            'province' => 'Quebec',
-            'country' => 'Canada',
-            'zip' => 'G1R 4P5',
-            'name' => 'Samuel de Champlain',
-            'province_code' => 'QC',
-            'country_code' => 'CA',
-            'country_name' => 'Canada',
+            [
+                'address1'      => '1 Rue des Carrieres',
+                'address2'      => 'Suite 1234',
+                'city'          => 'Montreal',
+                'company'       => 'Fancy Co.',
+                'first_name'    => 'Samuel',
+                'last_name'     => 'de Champlain',
+                'phone'         => '819-555-5555',
+                'province'      => 'Quebec',
+                'country'       => 'Canada',
+                'zip'           => 'G1R 4P5',
+                'name'          => 'Samuel de Champlain',
+                'province_code' => 'QC',
+                'country_code'  => 'CA',
+                'country_name'  => 'Canada',
+            ],
+            [
+                'address1'      => '1 Rue des Carrieres',
+                'address2'      => 'Suite 5000',
+                'city'          => 'Montreal',
+                'company'       => 'Fancy Co.',
+                'first_name'    => 'Samuel',
+                'last_name'     => 'de Champlain',
+                'phone'         => '819-555-5555',
+                'province'      => 'Quebec',
+                'country'       => 'Canada',
+                'zip'           => 'G1R 4P5',
+                'name'          => 'Samuel de Champlain',
+                'province_code' => 'QC',
+                'country_code'  => 'CA',
+                'country_name'  => 'Canada',
+            ],
         ];
 
         $this->putAddressArray = [
@@ -150,18 +168,18 @@ class CustomersTest extends SimpleResource
      */
     public function testCreateAddress($id)
     {
-        $item = static::$client->customers->addresses->create($id, $this->postAddressArray);
+        $item = null;
 
-        $this->assertTrue(is_array($item));
-        $this->assertNotEmpty($item);
+        foreach ($this->postAddressArray as $address) {
+            $item = static::$client->customers->addresses->create($id, $address);
 
-        foreach ($this->postAddressArray as $key => $value) {
-            $this->assertEquals($value, $item[$key]);
+            $this->assertTrue(is_array($item));
+            $this->assertNotEmpty($item);
         }
 
         return [
             'customerId' => $id,
-            'id'        => $item['id'],
+            'id'         => $item['id'],
         ];
     }
 
@@ -209,11 +227,9 @@ class CustomersTest extends SimpleResource
     /**
      * @depends testGetAddress
      * @param array $ids
-     * @expectedException \ShopifyClient\Exception\ClientException
      */
     public function testDeleteAddress(array $ids)
     {
-        // Trying to remove a customers default address results in a failure
         static::$client->customers->addresses->delete($ids['customerId'], $ids['id']);
 
         $this->assertTrue(true);

@@ -108,6 +108,7 @@ Set some environment variables first:
 - SHOPIFY_DOMAIN  
 - SHOPIFY_KEY  
 - SHOPIFY_SECRET  
+- SHOPIFY_RATE_LIMIT  
 - SHOPIFY_PRODUCT_VARIANT_ID  
 
 ``` bash
