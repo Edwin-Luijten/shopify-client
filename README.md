@@ -46,59 +46,59 @@ for($i = 0; $i <= $pages; $i++) {
 
 ## To-Do
 
-[ ] Abandoned checkouts  
-[ ] ApplicationCharge  
-[ ] ApplicationCredit  
-[ ] Article  
-[ ] Asset  
-[ ] Blog  
-[ ] CarrierService  
-[ ] Checkout  
-[ ] Collect  
-[ ] CollectionListing  
-[ ] Comment  
-[ ] Country  
-[ ] CustomCollection  
-[x] Customer  
-[ ] CustomerAddress  
-[ ] CustomerSavedSearch  
-[ ] DiscountCode  
-[ ] DraftOrder  
-[ ] Event  
-[ ] Fulfillment  
-[ ] FulfillmentEvent  
-[ ] FulfillmentService  
-[ ] Gift Card (Shopify Plus)  
-[ ] Location  
-[ ] Marketing Event  
-[ ] Metafield  
-[ ] Multipass (Shopify Plus)  
-[x] Order  
-[ ] Order Risks  
-[ ] Page
-[ ] Policy  
-[ ] PriceRule  
-[x] Product  
-[ ] Product Image  
-[x] Product Variant  
-[ ] ProductListing  
-[ ] Province  
-[ ] RecurringApplicationCharge  
-[ ] Redirect  
-[ ] Refund  
-[ ] Report  
-[ ] ResourceFeedback  
-[ ] ScriptTag  
-[ ] Shipping Zone  
-[ ] Shop  
-[ ] SmartCollection  
-[ ] Storefront Access Token  
-[ ] Theme  
-[ ] Transaction  
-[ ] UsageCharge  
-[ ] User (Shopify Plus)  
-[ ] Webhook  
-[ ] ShopifyQL  
+- [ ] Abandoned checkouts  
+- [ ] ApplicationCharge  
+- [ ] ApplicationCredit  
+- [ ] Article  
+- [ ] Asset  
+- [ ] Blog  
+- [ ] CarrierService  
+- [ ] Checkout  
+- [ ] Collect  
+- [ ] CollectionListing  
+- [ ] Comment  
+- [ ] Country  
+- [ ] CustomCollection  
+- [x] Customer  
+- [ ] CustomerAddress  
+- [ ] CustomerSavedSearch  
+- [ ] DiscountCode  
+- [ ] DraftOrder  
+- [ ] Event  
+- [ ] Fulfillment  
+- [ ] FulfillmentEvent  
+- [ ] FulfillmentService  
+- [ ] Gift Card (Shopify Plus)  
+- [ ] Location  
+- [ ] Marketing Event  
+- [ ] Metafield  
+- [ ] Multipass (Shopify Plus)  
+- [x] Order  
+- [ ] Order Risks  
+- [ ] Page
+- [ ] Policy  
+- [ ] PriceRule  
+- [x] Product  
+- [ ] Product Image  
+- [x] Product Variant  
+- [ ] ProductListing  
+- [ ] Province  
+- [ ] RecurringApplicationCharge  
+- [ ] Redirect  
+- [ ] Refund  
+- [ ] Report  
+- [ ] ResourceFeedback  
+- [ ] ScriptTag  
+- [ ] Shipping Zone  
+- [ ] Shop  
+- [ ] SmartCollection  
+- [ ] Storefront Access Token  
+- [ ] Theme  
+- [ ] Transaction  
+- [ ] UsageCharge  
+- [ ] User (Shopify Plus)  
+- [ ] Webhook  
+- [ ] ShopifyQL  
 
 
 
