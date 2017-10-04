@@ -32,6 +32,27 @@ class CustomersTest extends SimpleResource
 
     /**
      * @depends testCreate
+     */
+    public function testExceptionOnDuplicate()
+    {
+        try {
+            $this->testCreate();
+        } catch (\ShopifyClient\Exception\ClientException $e) {
+            $this->assertNotEmpty($e->getErrors());
+        }
+    }
+
+    public function testExceptionNotFound()
+    {
+        try {
+            $this->testGet(1);
+        } catch (\ShopifyClient\Exception\ClientException $e) {
+            $this->assertNotEmpty($e->getErrors());
+        }
+    }
+
+    /**
+     * @depends testCreate
      * @param $id
      */
     public function testGet($id)

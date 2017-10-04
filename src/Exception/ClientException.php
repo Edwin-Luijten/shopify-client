@@ -41,18 +41,35 @@ class ClientException extends \Exception
      */
     public function __toString()
     {
-        $error = '';
+        return $this->buildErrorString($this->errors);
+    }
 
-        foreach ($this->errors as $key => $value) {
+    /**
+     * @param $errors
+     * @param string $errorString
+     * @param null|string $field
+     * @return string
+     */
+    private function buildErrorString($errors, $errorString = '', string $field = null): string
+    {
+        foreach ($errors as $key => $value) {
             if (is_array($value)) {
-                foreach ($value as $v) {
-                    $error .= sprintf('%s%s.', !is_numeric($key) ? $key . ': ' : '', $v) . PHP_EOL;
-                }
+                $errorString .= $this->buildErrorString($value, $errorString, $key);
             } else {
-                $error .= sprintf('%s%s.', !is_numeric($key) ? $key . ': ' : '', $value) . PHP_EOL;
+                $errorString .= $this->buildErrorLine($field, $value);
             }
         }
 
-        return $error;
+        return $errorString;
+    }
+
+    /**
+     * @param $key
+     * @param string $value
+     * @return string
+     */
+    private function buildErrorLine($key, string $value): string
+    {
+        return sprintf('%s%s.', !empty($key) ? $key . ': ' : $key, $value) . PHP_EOL;
     }
 }
