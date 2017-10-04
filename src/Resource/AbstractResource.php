@@ -58,18 +58,10 @@ abstract class AbstractResource
      */
     public function request($method, $endpoint, $params = [])
     {
-        if ($method !== 'GET') {
-            $params['headers']['Content-Type'] = 'application/json';
-        }
-
-        if ($this->callsMade > 0 && $this->isRateLimitReached()) {
-            // Prevent bucket overflow
-            // https://help.shopify.com/api/getting-started/api-call-limit
-            usleep(rand(3, 10) * 1000000);
-        }
+        $this->handleRateLimit();
 
         try {
-            $response = $this->httpClient->request($method, $endpoint, $params);
+            $response = $this->httpClient->request($method, $endpoint, $this->getRequestParameters($method, $params));
         } catch (RequestException $e) {
             $response = $e->getResponse();
             $content  = json_decode($response->getBody()->getContents(), true);
@@ -80,6 +72,29 @@ abstract class AbstractResource
         $this->setRateLimit($response->getHeader(self::API_CALL_LIMIT_HEADER));
 
         return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
+     * @param string $method
+     * @param array $params
+     * @return array
+     */
+    private function getRequestParameters(string $method, array $params): array
+    {
+        if ($method !== 'GET') {
+            $params['headers']['Content-Type'] = 'application/json';
+        }
+
+        return $params;
+    }
+
+    private function handleRateLimit()
+    {
+        if ($this->callsMade > 0 && $this->isRateLimitReached()) {
+            // Prevent bucket overflow
+            // https://help.shopify.com/api/getting-started/api-call-limit
+            usleep(rand(3, 10) * 1000000);
+        }
     }
 
     /**
