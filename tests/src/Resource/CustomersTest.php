@@ -4,16 +4,21 @@ namespace ShopifyClient\Tests\Resource;
 
 class CustomersTest extends SimpleResource
 {
-    public $postArray = [
-        'email'      => 'foo@bar.com',
-        'first_name' => 'Foo',
-        'last_name'  => 'Bar',
-    ];
+    public function setUp()
+    {
+        parent::setUp();
 
-    public $putArray = [
-        'first_name' => 'Bar',
-        'last_name'  => 'Foo',
-    ];
+        $this->postArray = [
+            'email'      => 'foo@bar.com',
+            'first_name' => 'Foo',
+            'last_name'  => 'Bar',
+        ];
+
+        $this->putArray = [
+            'first_name' => 'Bar',
+            'last_name'  => 'Foo',
+        ];
+    }
 
     public function testAll()
     {
@@ -63,7 +68,7 @@ class CustomersTest extends SimpleResource
                     'variant_id' => getenv('SHOPIFY_ORDER_VARIANT_ID'),
                     'quantity'   => 1,
                 ],
-            ]
+            ],
         ]);
 
         $orders = static::$client->customers->orders($id);

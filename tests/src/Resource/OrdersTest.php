@@ -4,13 +4,9 @@ namespace ShopifyClient\Tests\Resource;
 
 class OrdersTest extends SimpleResource
 {
-    public $putArray = [
-        'note' => 'Burton Custom Freestyle 500',
-    ];
-
-    public function __construct()
+    public function setUp()
     {
-        parent::__construct();
+        parent::setUp();
 
         $this->postArray = [
             'line_items' => [
@@ -19,6 +15,10 @@ class OrdersTest extends SimpleResource
                     'quantity'   => 1,
                 ],
             ]
+        ];
+
+        $this->putArray = [
+            'note' => 'Burton Custom Freestyle 500',
         ];
     }
 
