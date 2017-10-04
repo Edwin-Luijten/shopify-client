@@ -12,6 +12,7 @@ use ShopifyClient\Resource\Product;
 use ShopifyClient\Resource\ProductImage;
 use ShopifyClient\Resource\ProductVariant;
 use ShopifyClient\Resource\Resource;
+use ShopifyClient\Resource\Shop;
 
 class ResourceCollection
 {
@@ -42,6 +43,9 @@ class ResourceCollection
                     'class' => ProductImage::class,
                 ],
             ],
+        ],
+        'shop'      => [
+            'class' => Shop::class,
         ],
     ];
 
@@ -84,7 +88,7 @@ class ResourceCollection
     private function validateResources(array $resources)
     {
         foreach ($resources as $key => $resource) {
-            if(!is_array($resource)) {
+            if (!is_array($resource)) {
                 throw new ResourceException(sprintf('Resource should be an array for resource %s', $key));
             }
 
