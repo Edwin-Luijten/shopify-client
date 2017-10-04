@@ -19,7 +19,7 @@ class CustomersTest extends SimpleResource
         parent::setUp();
 
         $this->postArray = [
-            'email'      => 'foo@bar.com',
+            'email'      => sprintf('foo+%s@bar.com', rand(0, 100)),
             'first_name' => 'Foo',
             'last_name'  => 'Bar',
         ];
@@ -116,7 +116,7 @@ class CustomersTest extends SimpleResource
     public function testSearch($id)
     {
         $customers = static::$client->customers->search([
-            'query' => $this->postArray['first_name']
+            'query' => $this->postArray['first_name'],
         ]);
 
         $this->assertEmpty($customers);
