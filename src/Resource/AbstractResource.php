@@ -82,7 +82,8 @@ abstract class AbstractResource implements Resource
     /**
      * @return int
      */
-    public function getRateLimitReached(): int {
+    public function getRateLimitReached(): int
+    {
         return $this->rateLimitReached;
     }
 
