@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use ShopifyClient\Exception\ClientException;
 
-abstract class AbstractResource
+abstract class AbstractResource implements Resource
 {
     const API_CALL_LIMIT_HEADER = 'http_x_shopify_shop_api_call_limit';
 
@@ -14,6 +14,11 @@ abstract class AbstractResource
      * @var Client
      */
     protected $httpClient;
+
+    /**
+     * @var bool
+     */
+    protected $countable = false;
 
     /**
      * @var int
@@ -36,9 +41,9 @@ abstract class AbstractResource
     private $rateLimitThreshold = 0.8;
 
     /**
-     * @var bool
+     * @var int
      */
-    protected $countable = false;
+    private $rateLimitReached = 0;
 
     /**
      * AbstractResource constructor.
@@ -75,6 +80,13 @@ abstract class AbstractResource
     }
 
     /**
+     * @return int
+     */
+    public function getRateLimitReached(): int {
+        return $this->rateLimitReached;
+    }
+
+    /**
      * @param string $method
      * @param array $params
      * @return array
@@ -91,6 +103,7 @@ abstract class AbstractResource
     private function handleRateLimit()
     {
         if ($this->callsMade > 0 && $this->isRateLimitReached()) {
+            $this->rateLimitReached++;
             // Prevent bucket overflow
             // https://help.shopify.com/api/getting-started/api-call-limit
             usleep(rand(3, 10) * 1000000);
