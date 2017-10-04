@@ -13,6 +13,11 @@ class Order extends AbstractResource
     protected $countable = true;
 
     /**
+     * @var OrderRisk
+     */
+    public $risks;
+
+    /**
      * @param float $id
      * @param array $fields
      * @return array

@@ -86,7 +86,7 @@ class CustomersTest extends SimpleResource
             'email'      => $this->postArray['email'],
             'line_items' => [
                 [
-                    'variant_id' => getenv('SHOPIFY_ORDER_VARIANT_ID'),
+                    'variant_id' => getenv('SHOPIFY_PRODUCT_VARIANT_ID'),
                     'quantity'   => 1,
                 ],
             ],

@@ -74,12 +74,12 @@ for($i = 0; $i <= $pages; $i++) {
 - [ ] Metafield  
 - [ ] Multipass (Shopify Plus)  
 - [x] Order  
-- [ ] Order Risks  
+- [x] Order Risks  
 - [ ] Page
 - [ ] Policy  
 - [ ] PriceRule  
 - [x] Product  
-- [ ] Product Image  
+- [x] Product Image  
 - [x] Product Variant  
 - [ ] ProductListing  
 - [ ] Province  

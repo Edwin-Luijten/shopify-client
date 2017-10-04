@@ -8,6 +8,11 @@ namespace ShopifyClient\Resource;
 class ProductVariant extends AbstractResource
 {
     /**
+     * @var bool
+     */
+    protected $countable = true;
+
+    /**
      * @param float $id
      * @param array $fields
      * @return array
@@ -16,8 +21,8 @@ class ProductVariant extends AbstractResource
     {
         $response = $this->request('GET', sprintf('/admin/variants/%s.json', $id), [
             'query' => [
-                'fields' => $fields
-            ]
+                'fields' => $fields,
+            ],
         ]);
 
         return $response['variant'];
@@ -31,17 +36,17 @@ class ProductVariant extends AbstractResource
     public function all(float $id, array $query = [])
     {
         $response = $this->request('GET', sprintf('/admin/products/%s/variants.json', $id), [
-            'query' => $query
+            'query' => $query,
         ]);
 
         return $response['variants'];
     }
 
     /**
-     * @param int $id product id
+     * @param float $id product id
      * @return array
      */
-    public function count(int $id)
+    public function count(float $id)
     {
         $response = $this->request('GET', sprintf('/admin/products/%s/variants/count.json', $id));
 
@@ -49,38 +54,42 @@ class ProductVariant extends AbstractResource
     }
 
     /**
-     * @param int $id product id
+     * @param float $id product id
      * @param array $params
      * @return array
      */
-    public function create(int $id, array $params = [])
+    public function create(float $id, array $params = [])
     {
         $response = $this->request('POST', sprintf('/admin/products/%s/variants.json', $id), [
-            'form_params' => $params
+            'body' => json_encode([
+                'variant' => $params,
+            ]),
         ]);
 
         return $response['variant'];
     }
 
     /**
-     * @param int $id
+     * @param float $id
      * @param array $params
      * @return array
      */
-    public function update(int $id, array $params = [])
+    public function update(float $id, array $params = [])
     {
         $response = $this->request('PUT', sprintf('/admin/variants/%s.json', $id), [
-            'form_params' => $params
+            'body' => json_encode([
+                'variant' => $params,
+            ]),
         ]);
 
         return $response['variant'];
     }
 
     /**
-     * @param int $productId
-     * @param int $variantId
+     * @param float $productId
+     * @param float $variantId
      */
-    public function delete(int $productId, int $variantId)
+    public function delete(float $productId, float $variantId)
     {
         $this->request('DELETE', sprintf('/admin/products/%s/variants/%s.json', $productId, $variantId));
     }

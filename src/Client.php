@@ -4,7 +4,9 @@ namespace ShopifyClient;
 
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\Order;
+use ShopifyClient\Resource\OrderRisk;
 use ShopifyClient\Resource\Product;
+use ShopifyClient\Resource\ProductImage;
 use ShopifyClient\Resource\ProductVariant;
 
 class Client
@@ -34,13 +36,21 @@ class Client
             'class' => Customer::class,
         ],
         'orders'    => [
-            'class' => Order::class,
+            'class'     => Order::class,
+            'resources' => [
+                'risks' => [
+                    'class' => OrderRisk::class,
+                ],
+            ],
         ],
         'products'  => [
             'class'     => Product::class,
             'resources' => [
                 'variants' => [
                     'class' => ProductVariant::class,
+                ],
+                'images'   => [
+                    'class' => ProductImage::class,
                 ],
             ],
         ],
@@ -62,11 +72,6 @@ class Client
     public $products;
 
     /**
-     * @var ProductVariant
-     */
-    public $productVariants;
-
-    /**
      * Client constructor.
      * @param string $domain
      * @param string $key
@@ -84,7 +89,7 @@ class Client
     private function initializeHttpClient()
     {
         $httpClient = new \GuzzleHttp\Client([
-            'base_uri' => sprintf(self::API_URL, $this->key, $this->secret, $this->domain)
+            'base_uri' => sprintf(self::API_URL, $this->key, $this->secret, $this->domain),
         ]);
 
         $this->loadResources($httpClient);

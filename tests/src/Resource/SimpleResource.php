@@ -34,7 +34,6 @@ abstract class SimpleResource extends Resource
             $pages = $count <= 50 ? 1 : round($count / 50);
 
             for ($i = 1; $i <= $pages; $i++) {
-
                 $items = array_merge($items, static::$client->{$this->resource}->throttle(function () use ($i) {
                     return static::$client->{$this->resource}->all([
                         'page' => $i,

@@ -18,6 +18,11 @@ class Product extends AbstractResource
     public $variants;
 
     /**
+     * @var ProductImage
+     */
+    public $images;
+
+    /**
      * @param float $id
      * @param array $fields
      * @return array
