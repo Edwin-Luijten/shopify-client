@@ -90,7 +90,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [ ] ResourceFeedback  
 - [ ] ScriptTag  
 - [ ] Shipping Zone  
-- [ ] Shop  
+- [x] Shop  
 - [ ] SmartCollection  
 - [ ] Storefront Access Token  
 - [ ] Theme  
