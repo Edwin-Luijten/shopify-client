@@ -82,7 +82,8 @@ abstract class AbstractResource
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    private function getErrorsFromResponse($content) {
+    private function getErrorsFromResponse($content)
+    {
         if (isset($content['error'])) {
             $errors = $content['error'];
         } elseif (isset($content['errors'])) {
