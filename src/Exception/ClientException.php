@@ -68,7 +68,7 @@ class ClientException extends \Exception
      * @param string $value
      * @return string
      */
-    private function buildErrorLine($key, string $value): string
+    private function buildErrorLine($key, string $value = null): string
     {
         return sprintf('%s%s.', !empty($key) ? $key . ': ' : $key, $value) . PHP_EOL;
     }

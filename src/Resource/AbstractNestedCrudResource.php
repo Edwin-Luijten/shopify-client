@@ -32,7 +32,8 @@ abstract class AbstractNestedCrudResource extends AbstractResource
      */
     public function get(float $parentId, float $id, array $fields = [])
     {
-        $response = $this->request('GET', sprintf('/admin/%s/%s/%s/%s.json',
+        $response = $this->request('GET', sprintf(
+            '/admin/%s/%s/%s/%s.json',
             $this->resourceParentEndpointPleural,
             $parentId,
             $this->resourceChildEndpointPleural,
@@ -53,7 +54,8 @@ abstract class AbstractNestedCrudResource extends AbstractResource
      */
     public function all(float $parentId, array $query = [])
     {
-        $response = $this->request('GET', sprintf('/admin/%s/%s/%s.json',
+        $response = $this->request('GET', sprintf(
+            '/admin/%s/%s/%s.json',
             $this->resourceParentEndpointPleural,
             $parentId,
             $this->resourceChildEndpointPleural
@@ -71,12 +73,14 @@ abstract class AbstractNestedCrudResource extends AbstractResource
      */
     public function create(float $parentId, array $params = [])
     {
-        print_r(sprintf('/admin/%s/%s/%s.json',
+        print_r(sprintf(
+            '/admin/%s/%s/%s.json',
             $this->resourceParentEndpointPleural,
             $parentId,
             $this->resourceChildEndpointPleural
         ));
-        $response = $this->request('POST', sprintf('/admin/%s/%s/%s.json',
+        $response = $this->request('POST', sprintf(
+            '/admin/%s/%s/%s.json',
             $this->resourceParentEndpointPleural,
             $parentId,
             $this->resourceChildEndpointPleural
@@ -97,7 +101,8 @@ abstract class AbstractNestedCrudResource extends AbstractResource
      */
     public function update(float $parentId, float $id, array $params = [])
     {
-        $response = $this->request('PUT', sprintf('/admin/%s/%s/%s/%s.json',
+        $response = $this->request('PUT', sprintf(
+            '/admin/%s/%s/%s/%s.json',
             $this->resourceParentEndpointPleural,
             $parentId,
             $this->resourceChildEndpointPleural,
@@ -117,7 +122,8 @@ abstract class AbstractNestedCrudResource extends AbstractResource
      */
     public function delete(float $parentId, float $id)
     {
-        $this->request('DELETE', sprintf('/admin/%s/%s/%s/%s.json',
+        $this->request('DELETE', sprintf(
+            '/admin/%s/%s/%s/%s.json',
             $this->resourceParentEndpointPleural,
             $parentId,
             $this->resourceChildEndpointPleural,
