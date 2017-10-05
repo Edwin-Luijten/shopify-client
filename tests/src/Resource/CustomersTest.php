@@ -106,13 +106,19 @@ class CustomersTest extends SimpleResource
         parent::testUpdate($id);
     }
 
-    public function testSearch()
+    /**
+     * @depends testGet
+     * @param $id
+     */
+    public function testSearch($id)
     {
+        $customer = static::$client->customers->get($id);
+
         $customers = static::$client->customers->search([
-            'query' => $this->putArray['first_name'],
+            'query' => 'email:' . $customer['email'],
         ]);
 
-        $this->assertEmpty($customers);
+        $this->assertTrue(is_array($customers));
     }
 
     /**
