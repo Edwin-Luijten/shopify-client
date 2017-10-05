@@ -23,6 +23,22 @@ abstract class SimpleResource extends BaseTest
         $this->resource = strtolower(preg_replace('/.+\\\\(\w+)Test$/', '$1', get_called_class()));
     }
 
+    public function testCreate()
+    {
+        if ($this->postArray) {
+            $item = static::$client->{$this->resource}->create($this->postArray);
+
+            $this->assertTrue(is_array($item));
+            $this->assertNotEmpty($item);
+
+            return $item['id'];
+        }
+
+        $this->markTestSkipped(
+            sprintf('%s resource does not have this method available.', $this->resource)
+        );
+    }
+
     public function testAll()
     {
         $results = static::$client->{$this->resource}->all();
@@ -45,22 +61,6 @@ abstract class SimpleResource extends BaseTest
 
             $this->assertEquals($count, count($items));
         }
-    }
-
-    public function testCreate()
-    {
-        if ($this->postArray) {
-            $item = static::$client->{$this->resource}->create($this->postArray);
-
-            $this->assertTrue(is_array($item));
-            $this->assertNotEmpty($item);
-
-            return $item['id'];
-        }
-
-        $this->markTestSkipped(
-            sprintf('%s resource does not have this method available.', $this->resource)
-        );
     }
 
     /**

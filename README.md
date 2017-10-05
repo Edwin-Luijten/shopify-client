@@ -97,7 +97,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [ ] Transaction  
 - [ ] UsageCharge  
 - [ ] User (Shopify Plus)  
-- [ ] Webhook  
+- [x] Webhook  
 - [ ] ShopifyQL  
 
 

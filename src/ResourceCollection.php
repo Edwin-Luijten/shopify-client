@@ -13,6 +13,7 @@ use ShopifyClient\Resource\ProductImage;
 use ShopifyClient\Resource\ProductVariant;
 use ShopifyClient\Resource\Resource;
 use ShopifyClient\Resource\Shop;
+use ShopifyClient\Resource\Webhook;
 
 class ResourceCollection
 {
@@ -46,6 +47,9 @@ class ResourceCollection
         ],
         'shop'      => [
             'class' => Shop::class,
+        ],
+        'webhooks'  => [
+            'class' => Webhook::class,
         ],
     ];
 

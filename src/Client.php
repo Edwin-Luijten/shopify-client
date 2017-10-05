@@ -7,12 +7,14 @@ use ShopifyClient\Resource\Order;
 use ShopifyClient\Resource\Product;
 use ShopifyClient\Resource\Resource;
 use ShopifyClient\Resource\Shop;
+use ShopifyClient\Resource\Webhook;
 
 /**
  * @property Order $orders
  * @property Product $products
  * @property Customer $customer
  * @property Shop $shop
+ * @property Webhook $webhooks
  */
 class Client
 {
