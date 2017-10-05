@@ -18,11 +18,6 @@ class Order extends AbstractCrudResource
     protected $resourceKeyPleural = 'orders';
 
     /**
-     * @var bool
-     */
-    protected $countable = true;
-
-    /**
      * @var OrderRisk
      */
     public $risks;

@@ -16,9 +16,4 @@ class Country extends AbstractCrudResource
      * @var string
      */
     protected $resourceKeyPleural = 'countries';
-
-    /**
-     * @var bool
-     */
-    protected $countable = true;
 }

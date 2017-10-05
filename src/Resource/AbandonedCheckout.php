@@ -8,11 +8,6 @@ namespace ShopifyClient\Resource;
 class AbandonedCheckout extends AbstractResource
 {
     /**
-     * @var bool
-     */
-    protected $countable = true;
-
-    /**
      * @param array $query
      * @return array
      */

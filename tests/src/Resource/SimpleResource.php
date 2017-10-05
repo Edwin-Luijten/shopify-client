@@ -45,7 +45,7 @@ abstract class SimpleResource extends BaseTest
 
         $this->assertNotEmpty($results);
 
-        if (static::$client->{$this->resource}->isCountable()) {
+        if (method_exists(static::$client->{$this->resource}, 'count')) {
             $count = static::$client->{$this->resource}->count();
 
             $items = [];

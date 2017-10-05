@@ -12,7 +12,7 @@ class AbandonedCheckoutsTest extends BaseTest
 
         $this->assertEmpty($results);
 
-        if (static::$client->abandonedCheckouts->isCountable()) {
+        if (method_exists(static::$client->abandonedCheckouts, 'count')) {
             $count = static::$client->abandonedCheckouts->count();
 
             $items = [];

@@ -95,7 +95,7 @@ class BlogTest extends SimpleResource
 
         $this->assertNotEmpty($results);
 
-        if (static::$client->blog->articles->isCountable()) {
+        if (method_exists(static::$client->blog->articles, 'count')) {
             $count = static::$client->blog->articles->count($id);
 
             $items = [];

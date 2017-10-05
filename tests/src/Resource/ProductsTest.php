@@ -104,7 +104,7 @@ class ProductsTest extends SimpleResource
 
         $this->assertNotEmpty($results);
 
-        if (static::$client->products->variants->isCountable()) {
+        if (method_exists(static::$client->products->variants, 'count')) {
             $count = static::$client->products->variants->count($id);
 
             $items = [];
@@ -183,7 +183,7 @@ class ProductsTest extends SimpleResource
 
         $this->assertNotEmpty($results);
 
-        if (static::$client->products->images->isCountable()) {
+        if (method_exists(static::$client->products->images, 'count')) {
             $count = static::$client->products->images->count($id);
 
             $items = [];

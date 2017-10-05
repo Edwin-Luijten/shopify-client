@@ -18,11 +18,6 @@ class Product extends AbstractCrudResource
     protected $resourceKeyPleural = 'products';
 
     /**
-     * @var bool
-     */
-    protected $countable = true;
-
-    /**
      * @var ProductVariant
      */
     public $variants;

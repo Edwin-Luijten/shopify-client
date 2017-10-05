@@ -18,11 +18,6 @@ class Blog extends AbstractCrudResource
     protected $resourceKeyPleural = 'blogs';
 
     /**
-     * @var bool
-     */
-    protected $countable = true;
-
-    /**
      * @var Article
      */
     public $articles;

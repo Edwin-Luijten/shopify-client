@@ -8,11 +8,6 @@ namespace ShopifyClient\Resource;
 class ProductVariant extends AbstractResource
 {
     /**
-     * @var bool
-     */
-    protected $countable = true;
-
-    /**
      * @param float $id
      * @param array $fields
      * @return array

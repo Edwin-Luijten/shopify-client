@@ -16,11 +16,6 @@ abstract class AbstractResource implements Resource
     protected $httpClient;
 
     /**
-     * @var bool
-     */
-    protected $countable = false;
-
-    /**
      * @var int
      */
     private $rateLimit;
@@ -158,13 +153,5 @@ abstract class AbstractResource implements Resource
     public function getCallLimit()
     {
         return $this->callsMade / $this->rateLimit;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isCountable(): bool
-    {
-        return $this->countable;
     }
 }

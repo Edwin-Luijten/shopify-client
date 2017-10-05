@@ -8,11 +8,6 @@ namespace ShopifyClient\Resource;
 class ProductImage extends AbstractResource
 {
     /**
-     * @var bool
-     */
-    protected $countable = true;
-
-    /**
      * @param float $productId
      * @param float $id
      * @param array $fields

@@ -18,11 +18,6 @@ class Customer extends AbstractCrudResource
     protected $resourceKeyPleural = 'customers';
 
     /**
-     * @var bool
-     */
-    protected $countable = true;
-
-    /**
      * @var CustomerAddress
      */
     public $addresses;
