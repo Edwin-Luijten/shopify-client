@@ -73,7 +73,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [ ] Multipass (Shopify Plus)  
 - [x] Order  
 - [x] Order Risks  
-- [ ] Page
+- [x] Page
 - [ ] Policy  
 - [ ] PriceRule  
 - [x] Product  

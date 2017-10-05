@@ -8,6 +8,7 @@ use ShopifyClient\Resource\CarrierService;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\Order;
+use ShopifyClient\Resource\Page;
 use ShopifyClient\Resource\Product;
 use ShopifyClient\Resource\Resource;
 use ShopifyClient\Resource\Shop;
@@ -19,6 +20,7 @@ use ShopifyClient\Resource\Webhook;
  * @property CarrierService $carrierServices
  * @property Country $countries
  * @property Order $orders
+ * @property Page $pages
  * @property Product $products
  * @property Customer $customer
  * @property Shop $shop

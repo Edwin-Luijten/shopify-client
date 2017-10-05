@@ -14,6 +14,7 @@ use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\CustomerAddress;
 use ShopifyClient\Resource\Order;
 use ShopifyClient\Resource\OrderRisk;
+use ShopifyClient\Resource\Page;
 use ShopifyClient\Resource\Product;
 use ShopifyClient\Resource\ProductImage;
 use ShopifyClient\Resource\ProductVariant;
@@ -48,6 +49,9 @@ class ResourceCollection
                     'class' => CustomerAddress::class,
                 ],
             ],
+        ],
+        'pages'              => [
+            'class' => Page::class,
         ],
         'orders'             => [
             'class'     => Order::class,
