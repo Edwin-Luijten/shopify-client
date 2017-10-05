@@ -18,6 +18,7 @@ use ShopifyClient\Resource\Page;
 use ShopifyClient\Resource\Product;
 use ShopifyClient\Resource\ProductImage;
 use ShopifyClient\Resource\ProductVariant;
+use ShopifyClient\Resource\Province;
 use ShopifyClient\Resource\Resource;
 use ShopifyClient\Resource\Shop;
 use ShopifyClient\Resource\Webhook;
@@ -34,13 +35,18 @@ class ResourceCollection
                 'articles' => [
                     'class' => Article::class,
                 ],
-            ]
+            ],
         ],
         'carrierServices'    => [
             'class' => CarrierService::class,
         ],
         'countries'          => [
-            'class' => Country::class,
+            'class'     => Country::class,
+            'resources' => [
+                'provinces' => [
+                    'class' => Province::class,
+                ],
+            ],
         ],
         'customers'          => [
             'class'     => Customer::class,
