@@ -5,6 +5,9 @@ namespace ShopifyClient;
 use GuzzleHttp\ClientInterface;
 use ShopifyClient\Exception\ResourceException;
 use ShopifyClient\Resource\AbandonedCheckout;
+use ShopifyClient\Resource\ApplicationCharge;
+use ShopifyClient\Resource\Article;
+use ShopifyClient\Resource\Blog;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\CustomerAddress;
@@ -22,6 +25,14 @@ class ResourceCollection
     private $defaultResources = [
         'abandonedCheckouts' => [
             'class' => AbandonedCheckout::class,
+        ],
+        'blog'               => [
+            'class'     => Blog::class,
+            'resources' => [
+                'articles' => [
+                    'class' => Article::class,
+                ],
+            ]
         ],
         'countries'          => [
             'class' => Country::class,

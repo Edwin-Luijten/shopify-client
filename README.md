@@ -20,7 +20,7 @@ $ composer require edwin-luijten/shopify-client
 ## Usage
 
 ``` php
-$client = new Client($domain, $key, $secret);
+$client = new Client(new Config($domain, $key, $secret));
 $client->orders->get(1);  
 $client->orders->all();
 $client->orders->all([
@@ -47,11 +47,9 @@ for($i = 0; $i <= $pages; $i++) {
 ## To-Do
 
 - [x] Abandoned checkouts  
-- [ ] ApplicationCharge  
-- [ ] ApplicationCredit  
-- [ ] Article  
+- [x] Article  
 - [ ] Asset  
-- [ ] Blog  
+- [x] Blog  
 - [ ] CarrierService  
 - [ ] Checkout  
 - [ ] Collect  

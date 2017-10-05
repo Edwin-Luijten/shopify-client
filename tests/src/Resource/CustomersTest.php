@@ -79,7 +79,19 @@ class CustomersTest extends SimpleResource
         return parent::testCreate();
     }
 
-    public function testExceptionNotFound()
+    /**
+     * @expectedException \ShopifyClient\Exception\ClientException
+     */
+    public function testInvalidField()
+    {
+        $this->postArray = array_merge($this->postArray, [
+            'email' => 'invalid',
+        ]);
+
+        parent::testCreate();
+    }
+
+    public function testNotFound()
     {
         try {
             $this->testGet(1);
@@ -230,8 +242,6 @@ class CustomersTest extends SimpleResource
      */
     public function testDelete($id)
     {
-        static::$client->customers->delete($id);
-
-        $this->assertTrue(true);
+        parent::testDelete($id);
     }
 }

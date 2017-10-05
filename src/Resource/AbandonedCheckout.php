@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+/**
+ * https://help.shopify.com/api/reference/abandoned_checkouts
+ */
 class AbandonedCheckout extends AbstractResource
 {
     /**

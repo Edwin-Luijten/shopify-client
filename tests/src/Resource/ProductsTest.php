@@ -48,7 +48,6 @@ class ProductsTest extends SimpleResource
         ];
     }
 
-
     public function testCreate()
     {
         return parent::testCreate();
@@ -201,7 +200,6 @@ class ProductsTest extends SimpleResource
             $this->assertEquals($count, count($items));
         }
     }
-
 
     /**
      * @depends testCreateImage
