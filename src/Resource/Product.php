@@ -5,7 +5,7 @@ namespace ShopifyClient\Resource;
 /**
  * https://help.shopify.com/api/reference/product
  */
-class Product extends AbstractCrudResource
+class Product extends AbstractCountableCrudResource
 {
     /**
      * @var string

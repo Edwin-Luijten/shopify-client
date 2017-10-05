@@ -5,7 +5,7 @@ namespace ShopifyClient\Resource;
 /**
  * https://help.shopify.com/api/reference/country
  */
-class Country extends AbstractCrudResource
+class Country extends AbstractCountableCrudResource
 {
     /**
      * @var string
