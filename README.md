@@ -57,7 +57,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [ ] Collect  
 - [ ] CollectionListing  
 - [ ] Comment  
-- [ ] Country  
+- [x] Country  
 - [ ] CustomCollection  
 - [x] Customer  
 - [x] CustomerAddress  

@@ -4,6 +4,7 @@ namespace ShopifyClient;
 
 use GuzzleHttp\ClientInterface;
 use ShopifyClient\Exception\ResourceException;
+use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\CustomerAddress;
 use ShopifyClient\Resource\Order;
@@ -18,6 +19,9 @@ use ShopifyClient\Resource\Webhook;
 class ResourceCollection
 {
     private $defaultResources = [
+        'countries' => [
+            'class' => Country::class,
+        ],
         'customers' => [
             'class'     => Customer::class,
             'resources' => [

@@ -2,6 +2,7 @@
 
 namespace ShopifyClient;
 
+use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\Order;
 use ShopifyClient\Resource\Product;
@@ -10,6 +11,7 @@ use ShopifyClient\Resource\Shop;
 use ShopifyClient\Resource\Webhook;
 
 /**
+ * @property Country $countries
  * @property Order $orders
  * @property Product $products
  * @property Customer $customer
