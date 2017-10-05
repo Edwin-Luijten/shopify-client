@@ -20,7 +20,7 @@ abstract class SimpleResource extends BaseTest
 
     public function setUp()
     {
-        $this->resource = strtolower(preg_replace('/.+\\\\(\w+)Test$/', '$1', get_called_class()));
+        $this->resource = lcfirst(preg_replace('/.+\\\\(\w+)Test$/', '$1', get_called_class()));
     }
 
     public function testCreate()

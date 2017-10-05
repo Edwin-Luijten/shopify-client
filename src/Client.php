@@ -4,6 +4,7 @@ namespace ShopifyClient;
 
 use ShopifyClient\Resource\AbandonedCheckout;
 use ShopifyClient\Resource\Blog;
+use ShopifyClient\Resource\CarrierService;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\Order;
@@ -15,6 +16,7 @@ use ShopifyClient\Resource\Webhook;
 /**
  * @property AbandonedCheckout $abandonedCheckouts
  * @property Blog $blog
+ * @property CarrierService $carrierServices
  * @property Country $countries
  * @property Order $orders
  * @property Product $products

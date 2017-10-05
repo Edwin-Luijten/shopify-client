@@ -8,6 +8,7 @@ use ShopifyClient\Resource\AbandonedCheckout;
 use ShopifyClient\Resource\ApplicationCharge;
 use ShopifyClient\Resource\Article;
 use ShopifyClient\Resource\Blog;
+use ShopifyClient\Resource\CarrierService;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\CustomerAddress;
@@ -33,6 +34,9 @@ class ResourceCollection
                     'class' => Article::class,
                 ],
             ]
+        ],
+        'carrierServices'    => [
+            'class' => CarrierService::class,
         ],
         'countries'          => [
             'class' => Country::class,

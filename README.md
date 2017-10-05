@@ -50,7 +50,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [x] Article  
 - [ ] Asset  
 - [x] Blog  
-- [ ] CarrierService  
+- [x] CarrierService  
 - [ ] Checkout  
 - [ ] Collect  
 - [ ] CollectionListing  
