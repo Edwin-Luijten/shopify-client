@@ -5,74 +5,25 @@ namespace ShopifyClient\Resource;
 /**
  * https://help.shopify.com/api/reference/customeraddress
  */
-class CustomerAddress extends AbstractResource
+class CustomerAddress extends AbstractNestedCrudResource
 {
     /**
-     * @param float $customerId
-     * @param float $id
-     * @param array $fields
-     * @return array
+     * @var string
      */
-    public function get(float $customerId, float $id, array $fields = [])
-    {
-        $response = $this->request('GET', sprintf('/admin/customers/%s/addresses/%s.json', $customerId, $id), [
-            'query' => [
-                'fields' => $fields,
-            ],
-        ]);
-
-        return $response['customer_address'];
-    }
+    protected $resourceParentEndpointPleural = 'customers';
 
     /**
-     * @param float $id customer id
-     * @param array $query
-     * @return array
+     * @var string
      */
-    public function all(float $id, array $query = [])
-    {
-        $response = $this->request('GET', sprintf('/admin/customers/%s/addresses.json', $id), [
-            'query' => $query,
-        ]);
-
-        return $response['addresses'];
-    }
+    protected $resourceChildEndpointPleural = 'addresses';
 
     /**
-     * @param float $id
-     * @param array $params
-     * @return array
+     * @var string
      */
-    public function create(float $id, array $params = [])
-    {
-        $response = $this->request('POST', sprintf('/admin/customers/%s/addresses.json', $id), [
-            'body' => json_encode(['address' => $params]),
-        ]);
-
-        return $response['customer_address'];
-    }
+    protected $resourceChildKeySingular = 'customer_address';
 
     /**
-     * @param float $customerId
-     * @param float $id
-     * @param array $params
-     * @return array
+     * @var string
      */
-    public function update(float $customerId, float $id, array $params = [])
-    {
-        $response = $this->request('PUT', sprintf('/admin/customers/%s/addresses/%s.json', $customerId, $id), [
-            'body' => json_encode(['address' => $params]),
-        ]);
-
-        return $response['customer_address'];
-    }
-
-    /**
-     * @param float $customerId
-     * @param float $id
-     */
-    public function delete(float $customerId, float $id)
-    {
-        $this->request('DELETE', sprintf('/admin/customers/%s/addresses/%s.json', $customerId, $id));
-    }
+    protected $resourceChildKeyPleural = 'addresses';
 }

@@ -5,94 +5,27 @@ namespace ShopifyClient\Resource;
 /**
  * https://help.shopify.com/api/reference/article
  */
-class Article extends AbstractResource
+class Article extends AbstractNestedCountableCrudResource
 {
     /**
-     * @param float $blogId
-     * @param float $id
-     * @param array $fields
-     * @return array
+     * @var string
      */
-    public function get(float $blogId, float $id, array $fields = [])
-    {
-        $response = $this->request('GET', sprintf('/admin/blogs/%s/articles/%s.json', $blogId, $id), [
-            'query' => [
-                'fields' => $fields
-            ]
-        ]);
-
-        return $response['article'];
-    }
+    protected $resourceParentEndpointPleural = 'blogs';
 
     /**
-     * @param float $id
-     * @param array $query
-     * @return array
+     * @var string
      */
-    public function all(float $id, array $query = [])
-    {
-        $response = $this->request('GET', sprintf('/admin/blogs/%s/articles.json', $id), [
-            'query' => $query
-        ]);
-
-        return $response['articles'];
-    }
+    protected $resourceChildEndpointPleural = 'articles';
 
     /**
-     * @param float $id
-     * @param array $query
-     * @return array
+     * @var string
      */
-    public function count(float $id, array $query = [])
-    {
-        $response = $this->request('GET', sprintf('/admin/blogs/%s/articles/count.json', $id), [
-            'query' => $query
-        ]);
-
-        return $response['count'];
-    }
+    protected $resourceChildKeySingular = 'article';
 
     /**
-     * @param float $id
-     * @param array $params
-     * @return array
+     * @var string
      */
-    public function create(float $id, array $params = [])
-    {
-        $response = $this->request('POST', sprintf('/admin/blogs/%s/articles.json', $id), [
-            'body' => json_encode([
-                'article' => $params,
-            ]),
-        ]);
-
-        return $response['article'];
-    }
-
-    /**
-     * @param float $blogId
-     * @param float $id
-     * @param array $params
-     * @return array
-     */
-    public function update(float $blogId, float $id, array $params = [])
-    {
-        $response = $this->request('PUT', sprintf('/admin/blogs/%s/articles/%s.json', $blogId, $id), [
-            'body' => json_encode([
-                'article' => $params,
-            ]),
-        ]);
-
-        return $response['article'];
-    }
-
-    /**
-     * @param float $blogId
-     * @param float $id
-     */
-    public function delete(float $blogId, float $id)
-    {
-        $this->request('DELETE', sprintf('/admin/blogs/%s/articles/%s.json', $blogId, $id));
-    }
+    protected $resourceChildKeyPleural = 'articles';
 
     /**
      * @param float $id
