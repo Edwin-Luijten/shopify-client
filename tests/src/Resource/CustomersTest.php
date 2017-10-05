@@ -113,13 +113,18 @@ class CustomersTest extends SimpleResource
      * @depends testGet
      * @param $id
      */
-    public function testSearch($id)
+    public function testUpdate($id)
+    {
+        parent::testUpdate($id);
+    }
+
+    public function testSearch()
     {
         $customers = static::$client->customers->search([
-            'query' => $this->postArray['first_name'],
+            'query' => $this->putArray['first_name'],
         ]);
 
-        $this->assertSame($customers[0]['first_name'], $this->postArray['first_name']);
+        $this->assertEmpty($customers);
     }
 
     /**
@@ -144,18 +149,11 @@ class CustomersTest extends SimpleResource
 
         foreach ($orders as $ord) {
             $this->assertSame($order['id'], $ord['id']);
+
+            static::$client->orders->delete($ord['id']);
         }
 
-        static::$client->orders->delete($order['id']);
-    }
 
-    /**
-     * @depends testGet
-     * @param $id
-     */
-    public function testUpdate($id)
-    {
-        parent::testUpdate($id);
     }
 
     /**
