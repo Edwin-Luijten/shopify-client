@@ -4,6 +4,7 @@ namespace ShopifyClient;
 
 use GuzzleHttp\ClientInterface;
 use ShopifyClient\Exception\ResourceException;
+use ShopifyClient\Resource\AbandonedCheckout;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\CustomerAddress;
@@ -19,10 +20,13 @@ use ShopifyClient\Resource\Webhook;
 class ResourceCollection
 {
     private $defaultResources = [
-        'countries' => [
+        'abandonedCheckouts' => [
+            'class' => AbandonedCheckout::class,
+        ],
+        'countries'          => [
             'class' => Country::class,
         ],
-        'customers' => [
+        'customers'          => [
             'class'     => Customer::class,
             'resources' => [
                 'addresses' => [
@@ -30,7 +34,7 @@ class ResourceCollection
                 ],
             ],
         ],
-        'orders'    => [
+        'orders'             => [
             'class'     => Order::class,
             'resources' => [
                 'risks' => [
@@ -38,7 +42,7 @@ class ResourceCollection
                 ],
             ],
         ],
-        'products'  => [
+        'products'           => [
             'class'     => Product::class,
             'resources' => [
                 'variants' => [
@@ -49,10 +53,10 @@ class ResourceCollection
                 ],
             ],
         ],
-        'shop'      => [
+        'shop'               => [
             'class' => Shop::class,
         ],
-        'webhooks'  => [
+        'webhooks'           => [
             'class' => Webhook::class,
         ],
     ];

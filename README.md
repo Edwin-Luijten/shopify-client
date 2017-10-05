@@ -46,7 +46,7 @@ for($i = 0; $i <= $pages; $i++) {
 
 ## To-Do
 
-- [ ] Abandoned checkouts  
+- [x] Abandoned checkouts  
 - [ ] ApplicationCharge  
 - [ ] ApplicationCredit  
 - [ ] Article  
