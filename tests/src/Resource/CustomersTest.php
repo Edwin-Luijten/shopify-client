@@ -19,7 +19,7 @@ class CustomersTest extends SimpleResource
         parent::setUp();
 
         $this->postArray = [
-            'email'      => 'foo@bar.com',
+            'email'      => sprintf('foo+%s@bar.com', mt_rand(0, 100) . microtime(true)),
             'first_name' => 'Foo',
             'last_name'  => 'Bar',
         ];
@@ -79,18 +79,6 @@ class CustomersTest extends SimpleResource
         return parent::testCreate();
     }
 
-    /**
-     * @depends testCreate
-     */
-    public function testExceptionOnDuplicate()
-    {
-        try {
-            $this->testCreate();
-        } catch (\ShopifyClient\Exception\ClientException $e) {
-            $this->assertNotEmpty($e->getErrors());
-        }
-    }
-
     public function testExceptionNotFound()
     {
         try {
@@ -133,8 +121,10 @@ class CustomersTest extends SimpleResource
      */
     public function testOrders($id)
     {
+        $customer = static::$client->customers->get($id);
+
         $order = static::$client->orders->create([
-            'email'      => $this->postArray['email'],
+            'email'      => $customer['email'],
             'line_items' => [
                 [
                     'variant_id' => getenv('SHOPIFY_PRODUCT_VARIANT_ID'),
@@ -152,8 +142,6 @@ class CustomersTest extends SimpleResource
 
             static::$client->orders->delete($ord['id']);
         }
-
-
     }
 
     /**
