@@ -19,7 +19,7 @@ class CustomersTest extends SimpleResource
         parent::setUp();
 
         $this->postArray = [
-            'email'      => sprintf('foo+%s@bar.com', rand(0, 100)),
+            'email'      => 'foo@bar.com',
             'first_name' => 'Foo',
             'last_name'  => 'Bar',
         ];
