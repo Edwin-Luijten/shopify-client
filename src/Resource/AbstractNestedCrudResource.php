@@ -73,12 +73,6 @@ abstract class AbstractNestedCrudResource extends AbstractResource
      */
     public function create(float $parentId, array $params = [])
     {
-        print_r(sprintf(
-            '/admin/%s/%s/%s.json',
-            $this->resourceParentEndpointPleural,
-            $parentId,
-            $this->resourceChildEndpointPleural
-        ));
         $response = $this->request('POST', sprintf(
             '/admin/%s/%s/%s.json',
             $this->resourceParentEndpointPleural,
