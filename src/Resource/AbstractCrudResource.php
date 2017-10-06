@@ -19,7 +19,7 @@ abstract class AbstractCrudResource extends AbstractResource
      * @param array $fields
      * @return array
      */
-    public function get(float $id, array $fields = [])
+    public function get(float $id, array $fields = []): array
     {
         $response = $this->request('GET', sprintf('/admin/%s/%s.json', $this->resourceKeyPleural, $id), [
             'query' => [
@@ -34,7 +34,7 @@ abstract class AbstractCrudResource extends AbstractResource
      * @param array $query
      * @return array
      */
-    public function all(array $query = [])
+    public function all(array $query = []): array
     {
         $response = $this->request('GET', sprintf('/admin/%s.json', $this->resourceKeyPleural), [
             'query' => $query
@@ -47,7 +47,7 @@ abstract class AbstractCrudResource extends AbstractResource
      * @param array $params
      * @return array
      */
-    public function create(array $params = [])
+    public function create(array $params = []): array
     {
         $response = $this->request('POST', sprintf('/admin/%s.json', $this->resourceKeyPleural), [
             'body' => json_encode([
@@ -63,7 +63,7 @@ abstract class AbstractCrudResource extends AbstractResource
      * @param array $params
      * @return array
      */
-    public function update(float $id, array $params = [])
+    public function update(float $id, array $params = []): array
     {
         $response = $this->request('PUT', sprintf('/admin/%s/%s.json', $this->resourceKeyPleural, $id), [
             'body' => json_encode([

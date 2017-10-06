@@ -7,9 +7,9 @@ abstract class AbstractNestedCountableCrudResource extends AbstractNestedCrudRes
     /**
      * @param float $parentId
      * @param array $query
-     * @return array
+     * @return int
      */
-    public function count(float $parentId, array $query = [])
+    public function count(float $parentId, array $query = []): int
     {
         $response = $this->request('GET', sprintf(
             '/admin/%s/%s/%s/count.json',

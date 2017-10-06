@@ -6,9 +6,9 @@ abstract class AbstractCountableCrudResource extends AbstractCrudResource
 {
     /**
      * @param array $query
-     * @return array
+     * @return int
      */
-    public function count(array $query = [])
+    public function count(array $query = []): int
     {
         $response = $this->request('GET', sprintf('/admin/%s/count.json', $this->resourceKeyPleural), [
             'query' => $query
