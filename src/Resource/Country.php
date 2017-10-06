@@ -20,5 +20,5 @@ class Country extends AbstractCountableCrudResource
     /**
      * @var Province
      */
-    protected $provinces;
+    public $provinces;
 }

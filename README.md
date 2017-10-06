@@ -80,7 +80,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [x] Product Image  
 - [x] Product Variant  
 - [ ] ProductListing  
-- [ ] Province  
+- [x] Province  
 - [ ] RecurringApplicationCharge  
 - [ ] Redirect  
 - [ ] Refund  
