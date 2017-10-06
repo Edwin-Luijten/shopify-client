@@ -8,13 +8,28 @@ use ShopifyClient\Resource\Resource;
 
 class ClientTest extends BaseTest
 {
-    public function testCreateClient()
+    public function testPrivateCreateClient()
     {
         $client = new Client(
             new Config(
                 getenv('SHOPIFY_DOMAIN'),
                 getenv('SHOPIFY_KEY'),
                 getenv('SHOPIFY_SECRET')
+            )
+        );
+
+        $this->assertInstanceOf(Client::class, $client);
+    }
+
+    public function testPublicCreateClient()
+    {
+        $client = new Client(
+            new Config(
+                getenv('SHOPIFY_DOMAIN'),
+                getenv('SHOPIFY_KEY'),
+                getenv('SHOPIFY_SECRET'),
+                [],
+                'foobar'
             )
         );
 
@@ -59,7 +74,6 @@ class ClientTest extends BaseTest
 
     public function testGetResource()
     {
-
         $resource = static::$client->getResource('customers');
 
         $this->assertInstanceOf(Resource::class, $resource);

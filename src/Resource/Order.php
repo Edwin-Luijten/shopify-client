@@ -23,6 +23,11 @@ class Order extends AbstractCountableCrudResource
     public $risks;
 
     /**
+     * @var Fulfillment
+     */
+    public $fulfillments;
+    
+    /**
      * @param float $id
      * @return array
      */

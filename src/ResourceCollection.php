@@ -5,13 +5,14 @@ namespace ShopifyClient;
 use GuzzleHttp\ClientInterface;
 use ShopifyClient\Exception\ResourceException;
 use ShopifyClient\Resource\AbandonedCheckout;
-use ShopifyClient\Resource\ApplicationCharge;
 use ShopifyClient\Resource\Article;
 use ShopifyClient\Resource\Blog;
 use ShopifyClient\Resource\CarrierService;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\CustomerAddress;
+use ShopifyClient\Resource\Fulfillment;
+use ShopifyClient\Resource\FulfillmentService;
 use ShopifyClient\Resource\Order;
 use ShopifyClient\Resource\OrderRisk;
 use ShopifyClient\Resource\Page;
@@ -57,13 +58,19 @@ class ResourceCollection
                 ],
             ],
         ],
+        'fulfillmentServices' => [
+            'class' => FulfillmentService::class,
+        ],
         'pages'              => [
             'class' => Page::class,
         ],
         'orders'             => [
             'class'     => Order::class,
             'resources' => [
-                'risks' => [
+                'fulfillments' => [
+                    'class' => FulFillment::class,
+                ],
+                'risks'        => [
                     'class' => OrderRisk::class,
                 ],
             ],

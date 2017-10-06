@@ -67,9 +67,9 @@ for($i = 0; $i <= $pages; $i++) {
 - [ ] DiscountCode  
 - [ ] DraftOrder  
 - [ ] Event  
-- [ ] Fulfillment  
+- [x] Fulfillment  
 - [ ] FulfillmentEvent  
-- [ ] FulfillmentService  
+- [x] FulfillmentService  
 - [ ] Gift Card (Shopify Plus)  
 - [ ] Location  
 - [ ] Marketing Event  

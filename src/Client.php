@@ -2,11 +2,13 @@
 
 namespace ShopifyClient;
 
+use ShopifyClient\Auth\OAuth;
 use ShopifyClient\Resource\AbandonedCheckout;
 use ShopifyClient\Resource\Blog;
 use ShopifyClient\Resource\CarrierService;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
+use ShopifyClient\Resource\FulfillmentService;
 use ShopifyClient\Resource\Order;
 use ShopifyClient\Resource\Page;
 use ShopifyClient\Resource\PriceRule;
@@ -21,6 +23,7 @@ use ShopifyClient\Resource\Webhook;
  * @property CarrierService $carrierServices
  * @property Country $countries
  * @property Order $orders
+ * @property FulfillmentService $fulfillmentServices
  * @property Page $pages
  * @property PriceRule $priceRules
  * @property Product $products
@@ -55,16 +58,34 @@ class Client
 
     private function initializeHttpClient()
     {
-        $httpClient = new \GuzzleHttp\Client([
-            'base_uri' => sprintf(
-                self::API_URL,
-                $this->config->getKey(),
-                $this->config->getSecret(),
-                $this->config->getDomain()
-            ),
-        ]);
+        $config = [
+            'base_uri' => $this->getBaseUrl()
+        ];
 
-        $this->resources = new ResourceCollection($httpClient, $this->config->getResources());
+        if (!empty($this->config->getAccessToken())) {
+            $config['headers'] = [
+                'X-Shopify-Access-Token' => $this->config->getAccessToken(),
+            ];
+        }
+
+        $this->resources = new ResourceCollection(new \GuzzleHttp\Client($config), $this->config->getResources());
+    }
+
+    /**
+     * @return string
+     */
+    private function getBaseUrl(): string
+    {
+        if ($this->config->getAccessToken()) {
+            return $this->config->getDomain();
+        }
+
+        return sprintf(
+            self::API_URL,
+            $this->config->getKey(),
+            $this->config->getSecret(),
+            $this->config->getDomain()
+        );
     }
 
     /**

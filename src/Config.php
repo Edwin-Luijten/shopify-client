@@ -25,18 +25,30 @@ class Config
     private $resources;
 
     /**
+     * @var string
+     */
+    private $accessToken;
+
+    /**
      * Config constructor.
      * @param string $domain
      * @param string $key
      * @param string $secret
      * @param array $resources
+     * @param string|null $accessToken
      */
-    public function __construct(string $domain, string $key, string $secret, array $resources = [])
-    {
-        $this->domain    = $domain;
-        $this->key       = $key;
-        $this->secret    = $secret;
-        $this->resources = $resources;
+    public function __construct(
+        string $domain,
+        string $key,
+        string $secret,
+        array $resources = [],
+        string $accessToken = null
+    ) {
+        $this->domain      = $domain;
+        $this->key         = $key;
+        $this->secret      = $secret;
+        $this->resources   = $resources;
+        $this->accessToken = $accessToken;
     }
 
     /**
@@ -69,5 +81,13 @@ class Config
     public function getResources(): array
     {
         return $this->resources;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
     }
 }
