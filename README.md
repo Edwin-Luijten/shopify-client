@@ -75,7 +75,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [x] Order Risks  
 - [x] Page
 - [ ] Policy  
-- [ ] PriceRule  
+- [x] PriceRule  
 - [x] Product  
 - [x] Product Image  
 - [x] Product Variant  

@@ -9,6 +9,7 @@ use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\Order;
 use ShopifyClient\Resource\Page;
+use ShopifyClient\Resource\PriceRule;
 use ShopifyClient\Resource\Product;
 use ShopifyClient\Resource\Resource;
 use ShopifyClient\Resource\Shop;
@@ -21,8 +22,9 @@ use ShopifyClient\Resource\Webhook;
  * @property Country $countries
  * @property Order $orders
  * @property Page $pages
+ * @property PriceRule $priceRules
  * @property Product $products
- * @property Customer $customer
+ * @property Customer $customers
  * @property Shop $shop
  * @property Webhook $webhooks
  */
