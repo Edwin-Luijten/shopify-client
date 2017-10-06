@@ -15,7 +15,7 @@ class Province extends AbstractResource
      */
     public function get(float $countryId, float $id, array $fields = [])
     {
-        $response = $this->request('GET', sprintf('/admin/countries/%s/provinces/%s.json', $countryId,$id), [
+        $response = $this->request('GET', sprintf('/admin/countries/%s/provinces/%s.json', $countryId, $id), [
             'query' => [
                 'fields' => $fields,
             ],
@@ -57,7 +57,7 @@ class Province extends AbstractResource
      */
     public function update(float $countryId, float $id, array $params = [])
     {
-        $response = $this->request('PUT', sprintf('/admin/countries/%s/provinces/%s.json', $countryId,$id), [
+        $response = $this->request('PUT', sprintf('/admin/countries/%s/provinces/%s.json', $countryId, $id), [
             'body' => json_encode([
                 'province' => $params,
             ]),
