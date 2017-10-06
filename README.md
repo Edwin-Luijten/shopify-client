@@ -19,6 +19,10 @@ $ composer require edwin-luijten/shopify-client
 
 ## Usage
 
+### Creating a Shopify application
+
+Read the following documentation: https://help.shopify.com/api/getting-started
+### Using the Client
 ``` php
 $client = new Client(new Config($domain, $key, $secret));
 $client->orders->get(1);  
@@ -44,10 +48,10 @@ for($i = 0; $i <= $pages; $i++) {
 }
 ```
 
-## To-Do
+## Implemented resources
 
 - [x] Abandoned checkouts  
-- [x] Article  
+- [x] Article  (Accessible trough blogs)
 - [ ] Asset  
 - [x] Blog  
 - [x] CarrierService  
@@ -58,7 +62,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [x] Country  
 - [ ] CustomCollection  
 - [x] Customer  
-- [x] CustomerAddress  
+- [x] CustomerAddress (Accessible trough customers)
 - [ ] CustomerSavedSearch  
 - [ ] DiscountCode  
 - [ ] DraftOrder  
@@ -72,15 +76,15 @@ for($i = 0; $i <= $pages; $i++) {
 - [ ] Metafield  
 - [ ] Multipass (Shopify Plus)  
 - [x] Order  
-- [x] Order Risks  
+- [x] Order Risks  (Accessible trough orders)
 - [x] Page
 - [ ] Policy  
 - [x] PriceRule  
 - [x] Product  
-- [x] Product Image  
-- [x] Product Variant  
+- [x] Product Image (Accessible trough products)  
+- [x] Product Variant  (Accessible trough products)
 - [ ] ProductListing  
-- [x] Province  
+- [x] Province  (Accessible trough countries)
 - [ ] RecurringApplicationCharge  
 - [ ] Redirect  
 - [ ] Refund  

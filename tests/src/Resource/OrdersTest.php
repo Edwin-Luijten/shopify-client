@@ -48,14 +48,14 @@ class OrdersTest extends SimpleResource
         ];
     }
 
-    public function testAll()
-    {
-        parent::testAll();
-    }
-
     public function testCreate()
     {
         return parent::testCreate();
+    }
+
+    public function testAll()
+    {
+        parent::testAll();
     }
 
     /**
