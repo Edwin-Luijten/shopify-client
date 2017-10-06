@@ -76,7 +76,7 @@ class Client
      */
     private function getBaseUrl(): string
     {
-        if ($this->config->getAccessToken()) {
+        if (!empty($this->config->getAccessToken())) {
             return $this->config->getDomain();
         }
 
