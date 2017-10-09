@@ -70,12 +70,15 @@ class DiscountCode extends AbstractNestedCountableCrudResource
      */
     public function getBatchAll(float $parentId, float $id, array $params = [])
     {
-        $response = $this->request('GET', sprintf('/admin/price_rules/%s/batch/%s/discount_codes.json', $parentId, $id),
+        $response = $this->request(
+            'GET',
+            sprintf('/admin/price_rules/%s/batch/%s/discount_codes.json', $parentId, $id),
             [
                 'body' => json_encode([
                     $this->resourceChildKeySingular => $params,
                 ]),
-            ]);
+            ]
+        );
 
         return $response['discount_codes'];
     }
