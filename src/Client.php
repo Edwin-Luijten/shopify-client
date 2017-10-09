@@ -2,7 +2,6 @@
 
 namespace ShopifyClient;
 
-use ShopifyClient\Auth\OAuth;
 use ShopifyClient\Resource\AbandonedCheckout;
 use ShopifyClient\Resource\Blog;
 use ShopifyClient\Resource\CarrierService;
@@ -33,7 +32,7 @@ use ShopifyClient\Resource\Webhook;
  */
 class Client
 {
-    const API_URL = 'https://%s:%s@%s';
+    const API_URL = 'https://%s';
 
     /**
      * @var Config
@@ -59,13 +58,19 @@ class Client
     private function initializeHttpClient()
     {
         $config = [
-            'base_uri' => $this->getBaseUrl()
+            'base_uri' => $this->getBaseUrl(),
+            'headers'  => [
+                'Accept-Encoding' => 'application/json',
+                'User-Agent'      => $this->getBaseUrl(),
+                'Authorization'   => 'Basic ' . $this->getCredentials(),
+            ]
         ];
 
         if (!empty($this->config->getAccessToken())) {
-            $config['headers'] = [
-                'X-Shopify-Access-Token' => $this->config->getAccessToken(),
-            ];
+            $config['headers'] = array_merge(
+                $config['headers'],
+                ['X-Shopify-Access-Token' => $this->config->getAccessToken()]
+            );
         }
 
         $this->resources = new ResourceCollection(new \GuzzleHttp\Client($config), $this->config->getResources());
@@ -80,12 +85,19 @@ class Client
             return $this->config->getDomain();
         }
 
-        return sprintf(
-            self::API_URL,
+        return sprintf(self::API_URL, $this->config->getDomain());
+    }
+
+    /**
+     * @return string
+     */
+    private function getCredentials(): string
+    {
+        return base64_encode(sprintf(
+            '%s:%s',
             $this->config->getKey(),
-            $this->config->getSecret(),
-            $this->config->getDomain()
-        );
+            $this->config->getSecret()
+        ));
     }
 
     /**

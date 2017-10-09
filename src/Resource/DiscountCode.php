@@ -53,9 +53,9 @@ class DiscountCode extends AbstractNestedCountableCrudResource
      */
     public function createBatch(float $parentId, array $params = [])
     {
-        $response = $this->request('GET', sprintf('/admin/price_rules/%s/batch.json', $parentId), [
+        $response = $this->request('POST', sprintf('/admin/price_rules/%s/batch.json', $parentId), [
             'body' => json_encode([
-                $this->resourceChildKeySingular => $params,
+                $this->resourceChildKeyPleural => $params,
             ]),
         ]);
 
@@ -65,38 +65,27 @@ class DiscountCode extends AbstractNestedCountableCrudResource
     /**
      * @param float $parentId
      * @param float $id
-     * @param array $params
      * @return array
      */
-    public function getBatchAll(float $parentId, float $id, array $params = [])
+    public function getBatch(float $parentId, float $id)
+    {
+        $response = $this->request('GET', sprintf('/admin/price_rules/%s/batch/%s.json', $parentId, $id));
+
+        return $response['discount_code_creation'];
+    }
+
+    /**
+     * @param float $parentId
+     * @param float $id
+     * @return array
+     */
+    public function getBatchAll(float $parentId, float $id)
     {
         $response = $this->request(
             'GET',
-            sprintf('/admin/price_rules/%s/batch/%s/discount_codes.json', $parentId, $id),
-            [
-                'body' => json_encode([
-                    $this->resourceChildKeySingular => $params,
-                ]),
-            ]
+            sprintf('/admin/price_rules/%s/batch/%s/discount_codes.json', $parentId, $id)
         );
 
         return $response['discount_codes'];
-    }
-
-    /**
-     * @param float $parentId
-     * @param float $id
-     * @param array $params
-     * @return array
-     */
-    public function getBatch(float $parentId, float $id, array $params = [])
-    {
-        $response = $this->request('GET', sprintf('/admin/price_rules/%s/batch/%s.json', $parentId, $id), [
-            'body' => json_encode([
-                $this->resourceChildKeySingular => $params,
-            ]),
-        ]);
-
-        return $response['discount_code_creation'];
     }
 }
