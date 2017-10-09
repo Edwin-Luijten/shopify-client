@@ -136,6 +136,10 @@ abstract class AbstractResource implements Resource
      */
     private function setRateLimit(array $header)
     {
+        if (empty($header)) {
+            return;
+        }
+
         $parts = explode('/', $header[0]);
 
         $this->rateLimit = $parts[1];

@@ -11,6 +11,7 @@ use ShopifyClient\Resource\CarrierService;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\CustomerAddress;
+use ShopifyClient\Resource\DiscountCode;
 use ShopifyClient\Resource\Fulfillment;
 use ShopifyClient\Resource\FulfillmentService;
 use ShopifyClient\Resource\Order;
@@ -28,10 +29,10 @@ use ShopifyClient\Resource\Webhook;
 class ResourceCollection
 {
     private $defaultResources = [
-        'abandonedCheckouts' => [
+        'abandonedCheckouts'  => [
             'class' => AbandonedCheckout::class,
         ],
-        'blog'               => [
+        'blog'                => [
             'class'     => Blog::class,
             'resources' => [
                 'articles' => [
@@ -39,10 +40,10 @@ class ResourceCollection
                 ],
             ],
         ],
-        'carrierServices'    => [
+        'carrierServices'     => [
             'class' => CarrierService::class,
         ],
-        'countries'          => [
+        'countries'           => [
             'class'     => Country::class,
             'resources' => [
                 'provinces' => [
@@ -50,7 +51,7 @@ class ResourceCollection
                 ],
             ],
         ],
-        'customers'          => [
+        'customers'           => [
             'class'     => Customer::class,
             'resources' => [
                 'addresses' => [
@@ -61,10 +62,10 @@ class ResourceCollection
         'fulfillmentServices' => [
             'class' => FulfillmentService::class,
         ],
-        'pages'              => [
+        'pages'               => [
             'class' => Page::class,
         ],
-        'orders'             => [
+        'orders'              => [
             'class'     => Order::class,
             'resources' => [
                 'fulfillments' => [
@@ -75,10 +76,15 @@ class ResourceCollection
                 ],
             ],
         ],
-        'priceRules'         => [
-            'class' => PriceRule::class,
+        'priceRules'          => [
+            'class'     => PriceRule::class,
+            'resources' => [
+                'discountCodes' => [
+                    'class' => DiscountCode::class,
+                ],
+            ],
         ],
-        'products'           => [
+        'products'            => [
             'class'     => Product::class,
             'resources' => [
                 'variants' => [
@@ -89,10 +95,10 @@ class ResourceCollection
                 ],
             ],
         ],
-        'shop'               => [
+        'shop'                => [
             'class' => Shop::class,
         ],
-        'webhooks'           => [
+        'webhooks'            => [
             'class' => Webhook::class,
         ],
     ];

@@ -64,7 +64,7 @@ for($i = 0; $i <= $pages; $i++) {
 - [x] Customer  
 - [x] CustomerAddress (Accessible trough customers)
 - [ ] CustomerSavedSearch  
-- [ ] DiscountCode  
+- [x] DiscountCode  (Accessible trough priceRules)
 - [ ] DraftOrder  
 - [ ] Event  
 - [x] Fulfillment  

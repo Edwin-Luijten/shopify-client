@@ -16,4 +16,9 @@ class PriceRule extends AbstractCrudResource
      * @var string
      */
     protected $resourceKeyPleural = 'price_rules';
+
+    /**
+     * @var DiscountCode
+     */
+    public $discountCodes;
 }

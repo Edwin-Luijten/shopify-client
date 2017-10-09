@@ -6,7 +6,10 @@ use ShopifyClient\Tests\BaseTest;
 
 abstract class SimpleResource extends BaseTest
 {
-    private $resource;
+    /**
+     * @var string
+     */
+    protected $resource;
 
     /**
      * @var bool|array
