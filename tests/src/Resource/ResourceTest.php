@@ -17,6 +17,13 @@ class ResourceTest extends BaseTest
         }
 
         $this->assertNotEmpty($products);
-        $this->assertGreaterThan(0, static::$client->products->getRateLimitReached());
+        $this->assertGreaterThan(0, static::$client->products->getRequest()->getRateLimitReached());
+    }
+
+    /**
+     * @expectedException \ShopifyClient\Exception\ClientException
+     */
+    public function testInvalidAction() {
+        static::$client->products->dump();
     }
 }

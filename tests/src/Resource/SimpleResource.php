@@ -2,6 +2,7 @@
 
 namespace ShopifyClient\Tests\Resource;
 
+use ShopifyClient\Request;
 use ShopifyClient\Tests\BaseTest;
 
 abstract class SimpleResource extends BaseTest
@@ -48,14 +49,14 @@ abstract class SimpleResource extends BaseTest
 
         $this->assertNotEmpty($results);
 
-        if (method_exists(static::$client->{$this->resource}, 'count')) {
+        if (static::$client->{$this->resource}->hasAction('count')) {
             $count = static::$client->{$this->resource}->count();
 
             $items = [];
             $pages = $count <= 50 ? 1 : round($count / 50);
 
             for ($i = 1; $i <= $pages; $i++) {
-                $items = array_merge($items, static::$client->{$this->resource}->throttle(function () use ($i) {
+                $items = array_merge($items, Request::throttle(function () use ($i) {
                     return static::$client->{$this->resource}->all([
                         'page' => $i,
                     ]);

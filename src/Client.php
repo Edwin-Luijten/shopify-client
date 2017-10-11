@@ -2,37 +2,39 @@
 
 namespace ShopifyClient;
 
-use ShopifyClient\Resource\AbandonedCheckout;
+use ShopifyClient\Resource\AbandonedCheckouts;
 use ShopifyClient\Resource\Blog;
-use ShopifyClient\Resource\CarrierService;
 use ShopifyClient\Resource\Country;
 use ShopifyClient\Resource\Customer;
 use ShopifyClient\Resource\FulfillmentService;
 use ShopifyClient\Resource\Order;
-use ShopifyClient\Resource\Page;
 use ShopifyClient\Resource\PriceRule;
 use ShopifyClient\Resource\Product;
 use ShopifyClient\Resource\Resource;
+use ShopifyClient\Resource\ResourceCollection;
 use ShopifyClient\Resource\Shop;
 use ShopifyClient\Resource\Webhook;
 
 /**
- * @property AbandonedCheckout $abandonedCheckouts
- * @property Blog $blog
- * @property CarrierService $carrierServices
+ * @property AbandonedCheckouts $abandonedCheckouts
+ * @property Blog $blogs
  * @property Country $countries
- * @property Order $orders
+ * @property Customer $customers
  * @property FulfillmentService $fulfillmentServices
- * @property Page $pages
  * @property PriceRule $priceRules
  * @property Product $products
- * @property Customer $customers
+ * @property Order $orders
  * @property Shop $shop
  * @property Webhook $webhooks
  */
 class Client
 {
-    const API_URL = 'https://%s';
+    const API_URL = 'https://%s/admin/';
+
+    /**
+     * @var Request
+     */
+    protected $request;
 
     /**
      * @var Config
@@ -60,6 +62,7 @@ class Client
         $config = [
             'base_uri' => $this->getBaseUrl(),
             'headers'  => [
+                'Content-Type'    => 'application/json',
                 'Accept-Encoding' => 'application/json',
                 'User-Agent'      => $this->getBaseUrl(),
                 'Authorization'   => 'Basic ' . $this->getCredentials(),
@@ -73,7 +76,10 @@ class Client
             );
         }
 
-        $this->resources = new ResourceCollection(new \GuzzleHttp\Client($config), $this->config->getResources());
+        $this->resources = new ResourceCollection(
+            new Request(new \GuzzleHttp\Client($config)),
+            $this->config->getResources()
+        );
     }
 
     /**

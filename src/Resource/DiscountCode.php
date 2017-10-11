@@ -4,88 +4,75 @@ namespace ShopifyClient\Resource;
 
 /**
  * https://help.shopify.com/api/reference/discountcode
+ *
+ * @method create(array $parameters = [])
+ * @method createBatch(float $parentId, array $parameters = [])
+ * @method get(float $parentId)
+ * @method getBatch(float $parentId, float $childId)
+ * @method all(float $parentId)
+ * @method allBatch(float $parentId, float $childId)
+ * @method lookup(float $parentId, array $parameters = [])
+ * @method count(float $parentId)
+ * @method update(float $parentId, array $parameters = [])
+ * @method delete(float $parentId)
  */
-class DiscountCode extends AbstractNestedCountableCrudResource
+class DiscountCode extends AbstractResource implements Resource
 {
     /**
-     * @var string
+     * @var array
      */
-    protected $resourceParentEndpointPleural = 'price_rules';
-
-    /**
-     * @var string
-     */
-    protected $resourceChildEndpointPleural = 'discount_codes';
-
-    /**
-     * @var string
-     */
-    protected $resourceChildKeySingular = 'discount_code';
-
-    /**
-     * @var string
-     */
-    protected $resourceChildKeyPleural = 'discount_codes';
-
-    /**
-     * @param string $code
-     * @return array|null
-     */
-    public function lookUp(string $code)
-    {
-        $response = $this->request('GET', sprintf('/admin/discount_codes/lookup.json'), [
-            'query' => [
-                'code' => $code,
-            ],
-        ]);
-
-        if (empty($response)) {
-            return null;
-        }
-
-        return $response['discount_code'];
-    }
-
-    /**
-     * @param float $parentId
-     * @param array $params
-     * @return array
-     */
-    public function createBatch(float $parentId, array $params = [])
-    {
-        $response = $this->request('POST', sprintf('/admin/price_rules/%s/batch.json', $parentId), [
-            'body' => json_encode([
-                $this->resourceChildKeyPleural => $params,
-            ]),
-        ]);
-
-        return $response['discount_code_creation'];
-    }
-
-    /**
-     * @param float $parentId
-     * @param float $id
-     * @return array
-     */
-    public function getBatch(float $parentId, float $id)
-    {
-        $response = $this->request('GET', sprintf('/admin/price_rules/%s/batch/%s.json', $parentId, $id));
-
-        return $response['discount_code_creation'];
-    }
-
-    /**
-     * @param float $parentId
-     * @param float $id
-     * @return array
-     */
-    public function getBatchAll(float $parentId, float $id)
-    {
-        $response = $this->request(
-            'GET',
-            sprintf('/admin/price_rules/%s/batch/%s/discount_codes.json', $parentId, $id)
-        );
-
-        return $response['discount_codes'];
-    }
+    protected $actions = [
+        'create' => [
+            'method'      => 'POST',
+            'endpoint'    => 'price_rules/%s/discount_codes.json',
+            'resourceKey' => 'discount_code',
+            'responseKey' => 'discount_code',
+        ],
+        'createBatch' => [
+            'method'      => 'POST',
+            'endpoint'    => 'price_rules/%s/batch.json',
+            'resourceKey' => 'discount_codes',
+            'responseKey' => 'discount_code_creation',
+        ],
+        'get'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'price_rules/%s/discount_codes/%s.json',
+            'resourceKey' => 'discount_code',
+            'responseKey' => 'discount_code',
+        ],
+        'getBatch'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'price_rules/%s/batch/%s.json',
+            'resourceKey' => 'discount_code_creation',
+            'responseKey' => 'discount_code_creation',
+        ],
+        'all'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'price_rules/%s/discount_codes.json',
+            'resourceKey' => 'discount_codes',
+            'responseKey' => 'discount_codes',
+        ],
+        'allBatch' => [
+            'method'      => 'GET',
+            'endpoint'    => 'price_rules/%s/batch/%s/discount_codes.json',
+            'resourceKey' => 'discount_codes',
+            'responseKey' => 'discount_codes',
+        ],
+        'lookup' => [
+            'method'      => 'GET',
+            'endpoint'    => 'discount_codes/lookup.json',
+            'resourceKey' => 'discount_code',
+            'responseKey' => 'discount_code',
+        ],
+        'update' => [
+            'method'      => 'PUT',
+            'endpoint'    => 'price_rules/%s/discount_codes/%s.json',
+            'resourceKey' => 'discount_code',
+            'responseKey' => 'discount_code',
+        ],
+        'delete' => [
+            'method'   => 'DELETE',
+            'endpoint' => 'price_rules/%s/discount_codes/%s.json',
+        ],
+    ];
 }

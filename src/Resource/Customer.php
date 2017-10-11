@@ -4,45 +4,71 @@ namespace ShopifyClient\Resource;
 
 /**
  * https://help.shopify.com/api/reference/customer
+ *
+ * @method create(array $parameters = [])
+ * @method get(float $parentId)
+ * @method all(float $parentId)
+ * @method count(float $parentId)
+ * @method update(float $parentId, array $parameters = [])
+ * @method delete(float $parentId)
+ *
+ * @property ProductMetaField $metafields
+ * @property CustomerAddress $addresses
  */
-class Customer extends AbstractCountableCrudResource
+class Customer extends AbstractResource implements Resource
 {
     /**
-     * @var string
+     * @var array
      */
-    protected $resourceKeySingular = 'customer';
+    protected $actions = [
+        'create' => [
+            'method'      => 'POST',
+            'endpoint'    => 'customers.json',
+            'resourceKey' => 'customer',
+            'responseKey' => 'customer',
+        ],
+        'get'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'customers/%s.json',
+            'resourceKey' => 'customer',
+            'responseKey' => 'customer',
+        ],
+        'search' => [
+            'method'      => 'GET',
+            'endpoint'    => 'customers/search.json',
+            'responseKey' => 'customers',
+        ],
+        'all'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'customers.json',
+            'resourceKey' => 'customers',
+            'responseKey' => 'customers',
+        ],
+        'count'  => [
+            'method'      => 'GET',
+            'endpoint'    => 'customers/count.json',
+            'resourceKey' => 'count',
+            'responseKey' => 'count',
+        ],
+        'update' => [
+            'method'      => 'PUT',
+            'endpoint'    => 'customers/%s.json',
+            'resourceKey' => 'customer',
+            'responseKey' => 'customer',
+        ],
+        'orders' => [
+            'method'      => 'GET',
+            'endpoint'    => 'customers/%s/orders.json',
+            'responseKey' => 'orders',
+        ],
+        'delete' => [
+            'method'   => 'DELETE',
+            'endpoint' => 'customers/%s.json',
+        ],
+    ];
 
-    /**
-     * @var string
-     */
-    protected $resourceKeyPleural = 'customers';
-
-    /**
-     * @var CustomerAddress
-     */
-    public $addresses;
-
-    /**
-     * @param array $query
-     * @return mixed
-     */
-    public function search(array $query = [])
-    {
-        $response = $this->request('GET', '/admin/customers/search.json', [
-            'query' => $query
-        ]);
-
-        return $response['customers'];
-    }
-
-    /**
-     * @param float $id
-     * @return array
-     */
-    public function orders(float $id)
-    {
-        $response = $this->request('GET', sprintf('/admin/customers/%s/orders.json', $id));
-
-        return $response['orders'];
-    }
+    protected $childResources = [
+        'metafields' => CustomerMetaField::class,
+        'addresses'  => CustomerAddress::class,
+    ];
 }

@@ -8,7 +8,6 @@ class PriceRulesTest extends SimpleResource
      * @var array
      */
     private $postDiscountCodeArray = [];
-
     /**
      * @var array
      */
@@ -35,14 +34,13 @@ class PriceRulesTest extends SimpleResource
         ];
 
         $this->postDiscountCodeArray = [
-            'code' => 'SUMMERSALE10OFF',
+            'code' => 'SUMMERSALE100OFF',
         ];
 
         $this->putDiscountCodeArray = [
-            'code' => 'WINTERSALE10OFF',
+            'code' => 'WINTERSALE100OFF',
         ];
     }
-
     public function testCreate()
     {
         return parent::testCreate();
@@ -90,10 +88,11 @@ class PriceRulesTest extends SimpleResource
     }
 
     public function testLookUpDiscountCode() {
-        $item = static::$client->priceRules->discountCodes->lookUp($this->postDiscountCodeArray['code']);
+        $item = static::$client->priceRules->discountCodes->lookup(['code' => $this->postDiscountCodeArray['code']]);
 
         $this->assertEmpty($item);
     }
+
     /**
      * @depends testCreateDiscountCode
      * @param array $ids

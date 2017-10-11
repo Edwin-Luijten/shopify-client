@@ -4,65 +4,41 @@ namespace ShopifyClient\Resource;
 
 /**
  * https://help.shopify.com/api/reference/province
+ *
+ * @method get(float $parentId, float $childId)
+ * @method all(float $parentId)
+ * @method count(float $parentId)
+ * @method update(float $parentId, float $childId, array $parameters = [])
  */
-class Province extends AbstractResource
+class Province extends AbstractResource implements Resource
 {
     /**
-     * @param float $countryId
-     * @param float $id
-     * @param array $fields
-     * @return array
+     * @var array
      */
-    public function get(float $countryId, float $id, array $fields = [])
-    {
-        $response = $this->request('GET', sprintf('/admin/countries/%s/provinces/%s.json', $countryId, $id), [
-            'query' => [
-                'fields' => $fields,
-            ],
-        ]);
-
-        return $response['province'];
-    }
-
-    /**
-     * @param float $id country id
-     * @param array $query
-     * @return array
-     */
-    public function all(float $id, array $query = [])
-    {
-        $response = $this->request('GET', sprintf('/admin/countries/%s/provinces.json', $id), [
-            'query' => $query,
-        ]);
-
-        return $response['provinces'];
-    }
-
-    /**
-     * @param float $id country id
-     * @return array
-     */
-    public function count(float $id)
-    {
-        $response = $this->request('GET', sprintf('/admin/countries/%s/provinces/count.json', $id));
-
-        return $response['count'];
-    }
-
-    /**
-     * @param float $countryId
-     * @param float $id
-     * @param array $params
-     * @return array
-     */
-    public function update(float $countryId, float $id, array $params = [])
-    {
-        $response = $this->request('PUT', sprintf('/admin/countries/%s/provinces/%s.json', $countryId, $id), [
-            'body' => json_encode([
-                'province' => $params,
-            ]),
-        ]);
-
-        return $response['province'];
-    }
+    protected $actions = [
+        'get'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'countries/%s/provinces/%s.json',
+            'resourceKey' => 'province',
+            'responseKey' => 'province',
+        ],
+        'all'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'countries/%s/provinces.json',
+            'resourceKey' => 'provinces',
+            'responseKey' => 'provinces',
+        ],
+        'count'  => [
+            'method'      => 'GET',
+            'endpoint'    => 'countries/%s/provinces/count.json',
+            'resourceKey' => 'count',
+            'responseKey' => 'count',
+        ],
+        'update' => [
+            'method'      => 'PUT',
+            'endpoint'    => 'countries/%s/provinces/%s.json',
+            'resourceKey' => 'province',
+            'responseKey' => 'province',
+        ],
+    ];
 }

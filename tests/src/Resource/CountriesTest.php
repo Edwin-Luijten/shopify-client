@@ -1,6 +1,7 @@
 <?php
-
 namespace ShopifyClient\Tests\Resource;
+
+use ShopifyClient\Request;
 
 class CountriesTest extends SimpleResource
 {
@@ -65,15 +66,17 @@ class CountriesTest extends SimpleResource
         $results = static::$client->countries->provinces->all($id);
 
         $this->assertNotEmpty($results);
+
         $items = [];
 
-        if (method_exists(static::$client->countries->provinces, 'count')) {
+        if (static::$client->countries->provinces->hasAction('count')) {
             $count = static::$client->countries->provinces->count($id);
 
+            $items = [];
             $pages = $count <= 50 ? 1 : round($count / 50);
 
             for ($i = 1; $i <= $pages; $i++) {
-                $items = array_merge($items, static::$client->countries->provinces->throttle(function () use ($i, $id) {
+                $items = array_merge($items, Request::throttle(function () use ($i, $id) {
                     return static::$client->countries->provinces->all($id, [
                         'page' => $i,
                     ]);

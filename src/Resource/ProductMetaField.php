@@ -3,16 +3,14 @@
 namespace ShopifyClient\Resource;
 
 /**
- * https://help.shopify.com/api/reference/product_image
- *
  * @method create(float $parentId, array $parameters = [])
- * @method get(float $parentId, float $childId)
+ * @method get(float $parentId, float $childId, array $parameters = [])
  * @method all(float $parentId, array $parameters = [])
  * @method count(float $parentId)
  * @method update(float $parentId, float $childId, array $parameters = [])
  * @method delete(float $parentId, float $childId)
  */
-class ProductImage extends AbstractResource implements Resource
+class ProductMetaField extends MetaField implements Resource
 {
     /**
      * @var array
@@ -20,37 +18,37 @@ class ProductImage extends AbstractResource implements Resource
     protected $actions = [
         'create' => [
             'method'      => 'POST',
-            'endpoint'    => 'products/%s/images.json',
-            'resourceKey' => 'image',
-            'responseKey' => 'image',
+            'endpoint'    => 'products/%s/metafields.json',
+            'resourceKey' => 'metafield',
+            'responseKey' => 'metafield',
         ],
         'get'    => [
             'method'      => 'GET',
-            'endpoint'    => 'products/%s/images/%s.json',
-            'resourceKey' => 'image',
-            'responseKey' => 'image',
+            'endpoint'    => 'products/%s/metafields/%s.json',
+            'resourceKey' => 'metafield',
+            'responseKey' => 'metafield',
         ],
         'all'    => [
             'method'      => 'GET',
-            'endpoint'    => 'products/%s/images.json',
-            'resourceKey' => 'images',
-            'responseKey' => 'images',
+            'endpoint'    => 'products/%s/metafields.json',
+            'resourceKey' => 'metafields',
+            'responseKey' => 'metafields',
         ],
         'count'  => [
             'method'      => 'GET',
-            'endpoint'    => 'products/%s/images/count.json',
+            'endpoint'    => 'products/%s/metafields/count.json',
             'resourceKey' => 'count',
             'responseKey' => 'count',
         ],
         'update' => [
             'method'      => 'PUT',
-            'endpoint'    => 'products/%s/images/%s.json',
-            'resourceKey' => 'image',
-            'responseKey' => 'image',
+            'endpoint'    => 'products/%s/metafields/%s.json',
+            'resourceKey' => 'metafield',
+            'responseKey' => 'metafield',
         ],
         'delete' => [
             'method'   => 'DELETE',
-            'endpoint' => 'products/%s/images/%s.json',
+            'endpoint' => 'products/%s/metafields/%s.json',
         ],
     ];
 }

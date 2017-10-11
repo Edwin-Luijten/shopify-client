@@ -4,21 +4,29 @@ namespace ShopifyClient\Resource;
 
 /**
  * https://help.shopify.com/api/reference/shop
+ *
+ * @method get
+ *
+ * @property ShopMetaField $metafields
  */
-class Shop extends AbstractResource
+class Shop extends AbstractResource implements Resource
 {
     /**
-     * @param array $fields
-     * @return array
+     * @var array
      */
-    public function get(array $fields = [])
-    {
-        $response = $this->request('GET', '/admin/shop.json', [
-            'query' => [
-                'fields' => $fields,
-            ],
-        ]);
+    protected $actions = [
 
-        return $response['shop'];
-    }
+        'get'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'shop.json',
+            'responseKey' => 'shop',
+        ],
+    ];
+
+    /**
+     * @var array
+     */
+    protected $childResources = [
+        'metafields' => ShopMetaField::class,
+    ];
 }

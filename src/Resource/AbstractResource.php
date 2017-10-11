@@ -2,160 +2,255 @@
 
 namespace ShopifyClient\Resource;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use ShopifyClient\Exception\ClientException;
+use ShopifyClient\Exception\ShopifyException;
+use ShopifyClient\Request;
 
-abstract class AbstractResource implements Resource
+abstract class AbstractResource
 {
-    const API_CALL_LIMIT_HEADER = 'http_x_shopify_shop_api_call_limit';
+    /**
+     * @var Request
+     */
+    protected $request;
 
     /**
-     * @var Client
+     * @var array
      */
-    protected $httpClient;
+    protected $actions = [];
 
     /**
-     * @var int
+     * @var array
      */
-    private $rateLimit;
-
-    /**
-     * @var int
-     */
-    private $callsMade;
-
-    /**
-     * @var float
-     */
-    private $callCycle = 0.5; // avg. 2 calls a second
-
-    /**
-     * @var float
-     */
-    private $rateLimitThreshold = 0.8;
-
-    /**
-     * @var int
-     */
-    private $rateLimitReached = 0;
+    protected $childResources = [];
 
     /**
      * AbstractResource constructor.
-     * @param Client $client
+     * @param Request $request
      */
-    public function __construct(Client $client)
+    public function __construct(Request $request)
     {
-        $this->httpClient = $client;
+        $this->request = $request;
     }
 
     /**
-     * @param $method
-     * @param $endpoint
-     * @param array $params
+     * @param string $action
      * @return array
      * @throws ClientException
      */
-    public function request($method, $endpoint, $params = [])
+    public function getAction(string $action): array
     {
-        $this->handleRateLimit();
-
-        try {
-            $response = $this->httpClient->request($method, $endpoint, $this->getRequestParameters($method, $params));
-        } catch (RequestException $e) {
-            $response = $e->getResponse();
-            $content  = json_decode($response->getBody()->getContents(), true);
-
-            throw new ClientException($content['errors'], $response->getStatusCode());
+        if (!$this->hasAction($action)) {
+            throw new ClientException(sprintf('Action: %s not found on resource. ', $action, get_called_class()));
         }
 
-        $this->setRateLimit($response->getHeader(self::API_CALL_LIMIT_HEADER));
-
-        return json_decode($response->getBody()->getContents(), true);
+        return $this->actions[$action];
     }
 
     /**
-     * @return int
+     * @return Request
      */
-    public function getRateLimitReached(): int
+    public function getRequest()
     {
-        return $this->rateLimitReached;
+        return $this->request;
+    }
+
+    /**
+     * @param string $action
+     * @return bool
+     */
+    public function hasAction(string $action): bool
+    {
+        if (!isset($this->actions[$action])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildResources(): array
+    {
+        return $this->childResources;
+    }
+
+    /**
+     * @param string $action
+     * @param float|null $parentId
+     * @param float|null $childId
+     * @param float|null $childChildId
+     * @param array|null $parameters
+     * @return array|bool
+     */
+    protected function request(
+        string $action,
+        float $parentId = null,
+        float $childId = null,
+        float $childChildId = null,
+        array $parameters = []
+    ) {
+        $this->request->setResponseKey($this->getResponseKey($action));
+
+        return $this->request->request(
+            $this->getMethod($action),
+            $this->getEndpoint($action, $parentId, $childId, $childChildId),
+            $this->getRequestOptions($action, $parameters)
+        );
+    }
+
+    /**
+     * @param string $action
+     * @param float|null $parentId
+     * @param float|null $childId
+     * @param float|null $childChildId
+     * @return string
+     * @throws ClientException
+     */
+    protected function getEndpoint(string $action, float $parentId = null, float $childId = null, float $childChildId = null): string
+    {
+        $actionData = $this->getAction($action);
+
+        if (!isset($actionData['endpoint'])) {
+            throw new ClientException(sprintf('Endpoint key not set for action: %s.', $action));
+        }
+
+        if (!empty($parentId) && empty($childId)) {
+            return sprintf($actionData['endpoint'], $parentId);
+        }
+
+        if (!empty($parentId) && !empty($childId) && empty($childChildId)) {
+            return sprintf($actionData['endpoint'], $parentId, $childId);
+        }
+
+        if (!empty($parentId) && !empty($childId) && !empty($childChildId)) {
+            return sprintf($actionData['endpoint'], $parentId, $childId, $childChildId);
+        }
+
+        return $actionData['endpoint'];
+    }
+
+    /**
+     * @param string $action
+     * @return string
+     * @throws ClientException
+     */
+    protected function getMethod(string $action): string
+    {
+        $actionData = $this->getAction($action);
+
+        if (!isset($actionData['method'])) {
+            throw new ClientException(sprintf('Method key not set for action: %s.', $action));
+        }
+
+        return $actionData['method'];
+    }
+
+    /**
+     * @param string $action
+     * @return string
+     */
+    protected function getResourceKey(string $action): string
+    {
+        $actionData = $this->getAction($action);
+
+        if (!isset($actionData['resourceKey'])) {
+            return '';
+        }
+
+        return $actionData['resourceKey'];
+    }
+
+    /**
+     * @param string $action
+     * @return string
+     */
+    protected function getResponseKey(string $action): string
+    {
+        $actionData = $this->getAction($action);
+
+        if (!isset($actionData['responseKey'])) {
+            return '';
+        }
+
+        return $actionData['responseKey'];
+    }
+
+    /**
+     * @param string $action
+     * @param array $parameters
+     * @return array
+     */
+    private function getRequestOptions(string $action, array $parameters): array
+    {
+        switch ($this->getMethod($action)) {
+            case 'GET':
+                return [
+                    'query' => $parameters
+                ];
+                break;
+            case 'POST':
+            case 'PUT':
+                if (strlen($this->getResourceKey($action)) < 1) {
+                    return [];
+                }
+
+                return [
+                    'body' => json_encode([
+                        $this->getResourceKey($action) => $parameters
+                    ])
+                ];
+                break;
+            default:
+                return [
+                    'query' => $parameters
+                ];
+                break;
+        }
     }
 
     /**
      * @param string $method
-     * @param array $params
-     * @return array
+     * @param array|null $arguments
+     * @return array|bool
      */
-    private function getRequestParameters(string $method, array $params): array
+    public function __call(string $method, array $arguments = [])
     {
-        if ($method !== 'GET') {
-            $params['headers']['Content-Type'] = 'application/json';
+        $parentId     = null;
+        $childId      = null;
+        $childChildId = null;
+        $parameters   = [];
+
+        if (!empty($arguments[0])) {
+            if (is_numeric($arguments[0])) {
+                $parentId = $arguments[0];
+            } elseif (is_array($arguments[0])) {
+                $parameters = $arguments[0];
+            }
         }
 
-        return $params;
-    }
-
-    private function handleRateLimit()
-    {
-        if ($this->callsMade > 0 && $this->isRateLimitReached()) {
-            $this->rateLimitReached++;
-            // Prevent bucket overflow
-            // https://help.shopify.com/api/getting-started/api-call-limit
-            usleep(rand(3, 10) * 1000000);
-        }
-    }
-
-    /**
-     * With a "leak rate" of 2 calls per second that continually empties the bucket.
-     * If your app averages 2 calls per second, it will never trip a 429 error ("bucket overflow").
-     *
-     * @param callable $function
-     * @return mixed
-     */
-    public function throttle(callable $function)
-    {
-        $start = time();
-
-        $result = $function();
-
-        $end = time();
-
-        $duration = $end - $start;
-        $waitTime = ceil($this->callCycle - $duration);
-
-        if ($waitTime > 0) {
-            sleep($waitTime);
+        if (!empty($arguments[1])) {
+            if (is_numeric($arguments[1])) {
+                $childId = $arguments[1];
+            } elseif (is_array($arguments[1])) {
+                $parameters = $arguments[1];
+            }
         }
 
-        return $result;
-    }
-
-    /**
-     * @param array $header
-     */
-    private function setRateLimit(array $header)
-    {
-        if (empty($header)) {
-            return;
+        if (!empty($arguments[2])) {
+            if (is_numeric($arguments[2])) {
+                $childChildId = $arguments[2];
+            } elseif (is_array($arguments[2])) {
+                $parameters = $arguments[2];
+            }
         }
 
-        $parts = explode('/', $header[0]);
+        if (!empty($arguments[3])) {
+            if (is_array($arguments[3])) {
+                $parameters = $arguments[3];
+            }
+        }
 
-        $this->rateLimit = $parts[1];
-        $this->callsMade = $parts[0];
-    }
-
-    /**
-     * @return bool
-     */
-    public function isRateLimitReached(): bool
-    {
-        return $this->getCallLimit() >= $this->rateLimitThreshold;
-    }
-
-    public function getCallLimit()
-    {
-        return $this->callsMade / $this->rateLimit;
+        return $this->request($method, $parentId, $childId, $childChildId, $parameters);
     }
 }

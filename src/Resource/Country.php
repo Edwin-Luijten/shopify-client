@@ -4,21 +4,60 @@ namespace ShopifyClient\Resource;
 
 /**
  * https://help.shopify.com/api/reference/country
+ *
+ * @method create(array $parameters = [])
+ * @method get(float $parentId)
+ * @method all(float $parentId)
+ * @method count(float $parentId)
+ * @method update(float $parentId, array $parameters = [])
+ * @method delete(float $parentId)
  */
-class Country extends AbstractCountableCrudResource
+class Country extends AbstractResource implements Resource
 {
     /**
-     * @var string
+     * @var array
      */
-    protected $resourceKeySingular = 'country';
+    protected $actions = [
+        'create' => [
+            'method'      => 'POST',
+            'endpoint'    => 'countries.json',
+            'resourceKey' => 'country',
+            'responseKey' => 'country',
+        ],
+        'get'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'countries/%s.json',
+            'resourceKey' => 'country',
+            'responseKey' => 'country',
+        ],
+        'all'    => [
+            'method'      => 'GET',
+            'endpoint'    => 'countries.json',
+            'resourceKey' => 'countries',
+            'responseKey' => 'countries',
+        ],
+        'count'  => [
+            'method'      => 'GET',
+            'endpoint'    => 'countries/count.json',
+            'resourceKey' => 'count',
+            'responseKey' => 'count',
+        ],
+        'update' => [
+            'method'      => 'PUT',
+            'endpoint'    => 'countries/%s.json',
+            'resourceKey' => 'country',
+            'responseKey' => 'country',
+        ],
+        'delete' => [
+            'method'   => 'DELETE',
+            'endpoint' => 'countries/%s.json',
+        ],
+    ];
 
     /**
-     * @var string
+     * @var array
      */
-    protected $resourceKeyPleural = 'countries';
-
-    /**
-     * @var Province
-     */
-    public $provinces;
+    protected $childResources = [
+        'provinces' => Province::class,
+    ];
 }

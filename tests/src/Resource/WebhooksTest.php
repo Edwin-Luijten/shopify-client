@@ -9,12 +9,12 @@ class WebhooksTest extends SimpleResource
         parent::setUp();
 
         $this->postArray = [
-            'topic'        => 'orders/create',
-            'address'    => 'https://whatever.hostname.com/',
-            'format'       => 'json',
+            'topic'   => 'orders/create',
+            'address' => 'https://whatever.hostname.com/',
+            'format'  => 'json',
         ];
 
-        $this->putArray = [
+        $this->putArray  = [
             'address' => 'https://whatever.hostname.com/foo',
         ];
     }

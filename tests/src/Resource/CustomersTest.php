@@ -7,6 +7,16 @@ class CustomersTest extends SimpleResource
     /**
      * @var array
      */
+    private $postCustomerMetafield = [];
+
+    /**
+     * @var array
+     */
+    private $putCustomerMetafield = [];
+
+    /**
+     * @var array
+     */
     private $postAddressArray = [];
 
     /**
@@ -27,6 +37,17 @@ class CustomersTest extends SimpleResource
         $this->putArray = [
             'first_name' => 'Bar',
             'last_name'  => 'Foo',
+        ];
+
+        $this->postCustomerMetafield = [
+            'namespace'  => 'customer',
+            'key'        => 'customer',
+            'value'      => 25,
+            'value_type' => 'integer',
+        ];
+
+        $this->putCustomerMetafield = [
+            'value' => 30,
         ];
 
         $this->postAddressArray = [
@@ -80,7 +101,7 @@ class CustomersTest extends SimpleResource
     }
 
     /**
-     * @expectedException \ShopifyClient\Exception\ClientException
+     * @expectedException \ShopifyClient\Exception\ShopifyException
      */
     public function testInvalidField()
     {
@@ -95,7 +116,7 @@ class CustomersTest extends SimpleResource
     {
         try {
             $this->testGet(1);
-        } catch (\ShopifyClient\Exception\ClientException $e) {
+        } catch (\ShopifyClient\Exception\ShopifyException $e) {
             $this->assertNotEmpty($e->getErrors());
         }
     }
@@ -125,7 +146,6 @@ class CustomersTest extends SimpleResource
     public function testSearch($id)
     {
         $customer = static::$client->customers->get($id);
-
         $customers = static::$client->customers->search([
             'query' => 'email:' . $customer['email'],
         ]);
@@ -140,7 +160,6 @@ class CustomersTest extends SimpleResource
     public function testOrders($id)
     {
         $customer = static::$client->customers->get($id);
-
         $order = static::$client->orders->create([
             'email'      => $customer['email'],
             'line_items' => [
@@ -152,13 +171,70 @@ class CustomersTest extends SimpleResource
         ]);
 
         $orders = static::$client->customers->orders($id);
-
         $this->assertNotEmpty($orders);
 
         foreach ($orders as $ord) {
             $this->assertSame($order['id'], $ord['id']);
-
             static::$client->orders->delete($ord['id']);
+        }
+    }
+
+    /**
+     * @depends testCreate
+     * @param $id
+     * @return array
+     */
+    public function testCreateMetafield($id)
+    {
+        $item = static::$client->customers->metafields->create($id, $this->postCustomerMetafield);
+
+        $this->assertTrue(is_array($item));
+        $this->assertNotEmpty($item);
+
+        return [
+            'customerId' => $id,
+            'id'        => $item['id'],
+        ];
+    }
+
+    /**
+     * @depends testCreateMetafield
+     * @param array $ids
+     */
+    public function testAllMetafields(array $ids)
+    {
+        $results = static::$client->customers->metafields->all($ids['customerId']);
+
+        $this->assertNotEmpty($results);
+    }
+
+    /**
+     * @depends testCreateMetafield
+     * @param array $ids
+     * @return array
+     */
+    public function testGetMetafield(array $ids)
+    {
+        $item = static::$client->customers->metafields->get($ids['customerId'], $ids['id']);
+
+        $this->assertSame($item['id'], $ids['id']);
+
+        return $ids;
+    }
+
+    /**
+     * @depends testGetMetafield
+     * @param array $ids
+     */
+    public function testUpdateMetafield(array $ids)
+    {
+        $item = static::$client->customers->metafields->update($ids['customerId'], $ids['id'], $this->putCustomerMetafield);
+
+        $this->assertTrue(is_array($item));
+        $this->assertNotEmpty($item);
+
+        foreach ($this->putCustomerMetafield as $key => $value) {
+            $this->assertEquals($value, $item[$key]);
         }
     }
 
@@ -173,7 +249,6 @@ class CustomersTest extends SimpleResource
 
         foreach ($this->postAddressArray as $address) {
             $item = static::$client->customers->addresses->create($id, $address);
-
             $this->assertTrue(is_array($item));
             $this->assertNotEmpty($item);
         }
@@ -191,7 +266,6 @@ class CustomersTest extends SimpleResource
     public function testAllAddresses($id)
     {
         $results = static::$client->customers->addresses->all($id);
-
         $this->assertNotEmpty($results);
     }
 
@@ -203,7 +277,6 @@ class CustomersTest extends SimpleResource
     public function testGetAddress(array $ids)
     {
         $item = static::$client->customers->addresses->get($ids['customerId'], $ids['id']);
-
         $this->assertSame($item['id'], $ids['id']);
 
         return $ids;
@@ -216,13 +289,23 @@ class CustomersTest extends SimpleResource
     public function testUpdateAddress(array $ids)
     {
         $item = static::$client->customers->addresses->update($ids['customerId'], $ids['id'], $this->putAddressArray);
-
         $this->assertTrue(is_array($item));
         $this->assertNotEmpty($item);
 
         foreach ($this->putAddressArray as $key => $value) {
             $this->assertEquals($value, $item[$key]);
         }
+    }
+
+    /**
+     * @depends testGetMetafield
+     * @param array $ids
+     */
+    public function testDeleteMetafield(array $ids)
+    {
+        static::$client->customers->metafields->delete($ids['customerId'], $ids['id']);
+
+        $this->assertTrue(true);
     }
 
     /**

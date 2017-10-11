@@ -2,13 +2,24 @@
 
 namespace ShopifyClient\Tests\Resource;
 
+use ShopifyClient\Request;
+
 class OrdersTest extends SimpleResource
 {
     /**
      * @var array
      */
-    private $postRiskArray = [];
+    private $postOrderMetafield = [];
 
+    /**
+     * @var array
+     */
+    private $putOrderMetafield = [];
+
+    /**
+     * @var array
+     */
+    private $postRiskArray = [];
     /**
      * @var array
      */
@@ -18,25 +29,38 @@ class OrdersTest extends SimpleResource
      * @var array
      */
     private $postFulfillmentServiceArray = [];
-
     /**
      * @var array
      */
     private $putFulfillmentServiceArray = [];
-
     /**
      * @var array
      */
     private $postFulfillmentArray = [];
-
     /**
      * @var array
      */
     private $putFulfillmentArray = [];
 
+    /**
+     * @var array
+     */
+    private $postFulfillmentEventArray = [];
+
     public function setUp()
     {
         parent::setUp();
+
+        $this->postOrderMetafield = [
+            'namespace'  => 'inventory',
+            'key'        => 'warehouse',
+            'value'      => 25,
+            'value_type' => 'integer',
+        ];
+
+        $this->putOrderMetafield = [
+            'value' => 30,
+        ];
 
         $this->postArray = [
             'line_items' => [
@@ -87,6 +111,10 @@ class OrdersTest extends SimpleResource
         $this->putFulfillmentArray = [
             'tracking_number' => null,
         ];
+
+        $this->postFulfillmentEventArray = [
+            'status' => 'in_transit',
+        ];
     }
 
     public function testCreate()
@@ -116,7 +144,6 @@ class OrdersTest extends SimpleResource
     {
         parent::testUpdate($id);
     }
-
 
     /**
      * @depends testGet
@@ -149,12 +176,87 @@ class OrdersTest extends SimpleResource
      */
     public function testCancel($id)
     {
-        $item = static::$client->orders->cancel($id);
-
+        $item  = static::$client->orders->cancel($id);
         $order = static::$client->orders->get($id);
 
         $this->assertSame($item['id'], $id);
         $this->assertNotEmpty($order['cancelled_at']);
+    }
+
+    /**
+     * @depends testCreate
+     * @param $id
+     * @return array
+     */
+    public function testCreateMetafield($id)
+    {
+        $item = static::$client->orders->metafields->create($id, $this->postOrderMetafield);
+
+        $this->assertTrue(is_array($item));
+        $this->assertNotEmpty($item);
+
+        return [
+            'orderId' => $id,
+            'id'        => $item['id'],
+        ];
+    }
+
+    /**
+     * @depends testCreateMetafield
+     * @param array $ids
+     */
+    public function testAllMetafields(array $ids)
+    {
+        $results = static::$client->orders->metafields->all($ids['orderId']);
+
+        $this->assertNotEmpty($results);
+
+        if (static::$client->orders->metafields->hasAction('count')) {
+            $count = static::$client->orders->metafields->count($ids['orderId']);
+
+            $items = [];
+            $pages = $count <= 50 ? 1 : round($count / 50);
+
+            for ($i = 1; $i <= $pages; $i++) {
+                $items = array_merge($items, Request::throttle(function () use ($i, $ids) {
+                    return static::$client->orders->metafields->all($ids['orderId'], [
+                        'page' => $i,
+                    ]);
+                }));
+            }
+
+            $this->assertEquals($count, count($items));
+        }
+    }
+
+    /**
+     * @depends testCreateMetafield
+     * @param array $ids
+     * @return array
+     */
+    public function testGetMetafield(array $ids)
+    {
+        $item = static::$client->orders->metafields->get($ids['orderId'], $ids['id']);
+
+        $this->assertSame($item['id'], $ids['id']);
+
+        return $ids;
+    }
+
+    /**
+     * @depends testGetMetafield
+     * @param array $ids
+     */
+    public function testUpdateMetafield(array $ids)
+    {
+        $item = static::$client->orders->metafields->update($ids['orderId'], $ids['id'], $this->putOrderMetafield);
+
+        $this->assertTrue(is_array($item));
+        $this->assertNotEmpty($item);
+
+        foreach ($this->putOrderMetafield as $key => $value) {
+            $this->assertEquals($value, $item[$key]);
+        }
     }
 
     /**
@@ -224,7 +326,6 @@ class OrdersTest extends SimpleResource
     public function testCreateFulfillmentService($id)
     {
         $item = static::$client->fulfillmentServices->create($this->postFulfillmentServiceArray);
-
         $this->assertTrue(is_array($item));
         $this->assertNotEmpty($item);
 
@@ -237,7 +338,6 @@ class OrdersTest extends SimpleResource
     public function testAllFulfillmentService()
     {
         $results = static::$client->fulfillmentServices->all();
-
         $this->assertNotEmpty($results);
     }
 
@@ -249,7 +349,6 @@ class OrdersTest extends SimpleResource
     public function testGetFulfillmentService(array $ids)
     {
         $item = static::$client->fulfillmentServices->get($ids['id']);
-
         $this->assertSame($item['id'], $ids['id']);
 
         return $ids;
@@ -278,6 +377,12 @@ class OrdersTest extends SimpleResource
      */
     public function testCreateFulfillment($id)
     {
+        $results = static::$client->orders->fulfillments->all($id);
+
+        foreach ($results as $result) {
+            static::$client->fulfillmentServices->delete($result['id']);
+        }
+
         $order = static::$client->orders->get($id);
 
         $lineItems = function () use ($order) {
@@ -290,15 +395,14 @@ class OrdersTest extends SimpleResource
         };
 
         $params = array_merge($this->postFulfillmentArray, ['line_items' => $lineItems()]);
-
-        $item = static::$client->orders->fulfillments->create($id, $params);
+        $item   = static::$client->orders->fulfillments->create($id, $params);
 
         $this->assertTrue(is_array($item));
         $this->assertNotEmpty($item);
 
         return [
             'id'      => $item['id'],
-            'fulfillmentId' => $id,
+            'orderId' => $id,
         ];
     }
 
@@ -320,8 +424,7 @@ class OrdersTest extends SimpleResource
      */
     public function testGetFulfillment(array $ids)
     {
-        $item = static::$client->orders->fulfillments->get($ids['fulfillmentId'], $ids['id']);
-
+        $item = static::$client->orders->fulfillments->get($ids['orderId'], $ids['id']);
         $this->assertSame($item['id'], $ids['id']);
 
         return $ids;
@@ -334,11 +437,10 @@ class OrdersTest extends SimpleResource
     public function testUpdateFulfillment(array $ids)
     {
         $item = static::$client->orders->fulfillments->update(
-            $ids['fulfillmentId'],
+            $ids['orderId'],
             $ids['id'],
             $this->putFulfillmentArray
         );
-
         $this->assertTrue(is_array($item));
         $this->assertNotEmpty($item);
 
@@ -348,34 +450,65 @@ class OrdersTest extends SimpleResource
     }
 
     /**
-     * @expectedException \ShopifyClient\Exception\ClientException
      * @depends testGetFulfillment
      * @param array $ids
+     * @return array
      */
-    public function testCompleteFulfillment(array $ids)
+    public function testCreateFulfillmentEvent(array $ids)
     {
-        static::$client->orders->fulfillments->complete($ids['fulfillmentId'], $ids['id']);
+        $item = static::$client->orders->fulfillments->events->create(
+            $ids['orderId'],
+            $ids['id'],
+            $this->postFulfillmentEventArray
+        );
+
+        $this->assertTrue(is_array($item));
+        $this->assertNotEmpty($item);
+
+        return [
+            'id'            => $item['id'],
+            'orderId'       => $ids['orderId'],
+            'fulfillmentId' => $ids['id'],
+        ];
     }
 
     /**
      * @depends testGetFulfillment
      * @param array $ids
      */
-    public function testCancelFulfillment(array $ids)
+    public function testAllFulfillmentEvents(array $ids)
     {
-        $item = static::$client->orders->fulfillments->cancel($ids['fulfillmentId'], $ids['id']);
+        $results = static::$client->orders->fulfillments->events->all($ids['orderId'], $ids['id']);
 
-        $this->assertSame('cancelled', $item['status']);
+        $this->assertNotEmpty($results);
     }
 
     /**
-     * @expectedException \ShopifyClient\Exception\ClientException
-     * @depends testGetFulfillment
+     * @depends testCreateFulfillmentEvent
+     * @param array $ids
+     * @return array
+     */
+    public function testGetFulfillmentEvent(array $ids)
+    {
+        $item = static::$client->orders->fulfillments->events->get($ids['orderId'], $ids['fulfillmentId'], $ids['id']);
+        $this->assertSame($item['id'], $ids['id']);
+
+        return [
+            'orderId'       => $ids['orderId'],
+            'fulfillmentId' => $ids['fulfillmentId'],
+            'id'            => $item['id']
+        ];
+    }
+
+    /**
+     * @depends testGetMetafield
      * @param array $ids
      */
-    public function testOpenFulfillment(array $ids)
+    public function testDeleteMetafield(array $ids)
     {
-        static::$client->orders->fulfillments->open($ids['fulfillmentId'], $ids['id']);
+        static::$client->orders->metafields->delete($ids['orderId'], $ids['id']);
+
+        $this->assertTrue(true);
     }
 
     /**
@@ -396,6 +529,17 @@ class OrdersTest extends SimpleResource
     public function testDeleteFulfillmentService(array $ids)
     {
         static::$client->fulfillmentServices->delete($ids['id']);
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @depends testGetFulfillmentEvent
+     * @param array $ids
+     */
+    public function testDeleteFulfillmentEvent(array $ids)
+    {
+        static::$client->orders->fulfillments->events->delete($ids['orderId'], $ids['fulfillmentId'], $ids['id']);
 
         $this->assertTrue(true);
     }

@@ -51,10 +51,9 @@ for($i = 0; $i <= $pages; $i++) {
 ## Implemented resources
 
 - [x] Abandoned checkouts  
-- [x] Article  (Accessible trough blogs)
-- [ ] Asset  
+- [x] Article (Accessible trough blogs)
 - [x] Blog  
-- [x] CarrierService  
+- [ ] CarrierService  
 - [ ] Checkout  
 - [ ] Collect  
 - [ ] CollectionListing  
@@ -64,20 +63,20 @@ for($i = 0; $i <= $pages; $i++) {
 - [x] Customer  
 - [x] CustomerAddress (Accessible trough customers)
 - [ ] CustomerSavedSearch  
-- [x] DiscountCode  (Accessible trough priceRules)
+- [x] DiscountCode (Accessible trough priceRules)
 - [ ] DraftOrder  
 - [ ] Event  
 - [x] Fulfillment  
-- [ ] FulfillmentEvent  
+- [x] FulfillmentEvent  
 - [x] FulfillmentService  
 - [ ] Gift Card (Shopify Plus)  
 - [ ] Location  
 - [ ] Marketing Event  
-- [ ] Metafield  
+- [x] Metafield (products, variants, orders, blogs, articles) 
 - [ ] Multipass (Shopify Plus)  
 - [x] Order  
-- [x] Order Risks  (Accessible trough orders)
-- [x] Page
+- [x] Order Risks (Accessible trough orders)
+- [ ] Page
 - [ ] Policy  
 - [x] PriceRule  
 - [x] Product  
