@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/pricerule
  *
@@ -19,38 +22,60 @@ class PriceRule extends AbstractResource implements Resource
     /**
      * @var array
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'price_rules.json',
-            'resourceKey' => 'price_rule',
-            'responseKey' => 'price_rule',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'price_rules/%s.json',
-            'resourceKey' => 'price_rule',
-            'responseKey' => 'price_rule',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'price_rules.json',
-            'resourceKey' => 'price_rules',
-            'responseKey' => 'price_rules',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'price_rules/%s.json',
-            'resourceKey' => 'price_rule',
-            'responseKey' => 'price_rule',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'price_rules/%s.json',
-        ],
-    ];
-
     protected $childResources = [
         'discountCodes' => DiscountCode::class,
     ];
+
+    /**
+     * PriceRule constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'price_rules.json',
+                'price_rule',
+                'price_rule'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'price_rules/%s.json',
+                'price_rule',
+                'price_rule'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'price_rules.json',
+                'price_rules',
+                'price_rules'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'price_rules/%s.json',
+                'price_rule',
+                'price_rule'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'price_rules/%s.json'
+            )
+        );
+    }
 }

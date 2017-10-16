@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/webhook
  *
@@ -13,37 +16,61 @@ namespace ShopifyClient\Resource;
  */
 class Webhook extends AbstractResource implements Resource
 {
-    /**
-     * @var array
-     */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'webhooks.json',
-            'resourceKey' => 'webhook',
-            'responseKey' => 'webhook',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'webhooks/%s.json',
-            'resourceKey' => 'webhook',
-            'responseKey' => 'webhook',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'webhooks.json',
-            'resourceKey' => 'webhooks',
-            'responseKey' => 'webhooks',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'webhooks/%s.json',
-            'resourceKey' => 'webhook',
-            'responseKey' => 'webhook',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'webhooks/%s.json',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'webhooks.json',
+                'webhook',
+                'webhook'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'webhooks/%s.json',
+                'webhook',
+                'webhook'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'webhooks.json',
+                'webhooks',
+                'webhooks'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'webhooks/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'webhooks/%s.json',
+                'webhook',
+                'webhook'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'webhooks/%s.json'
+            )
+        );
+    }
 }

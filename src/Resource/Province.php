@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/province
  *
@@ -13,32 +16,48 @@ namespace ShopifyClient\Resource;
 class Province extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * Province constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'countries/%s/provinces/%s.json',
-            'resourceKey' => 'province',
-            'responseKey' => 'province',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'countries/%s/provinces.json',
-            'resourceKey' => 'provinces',
-            'responseKey' => 'provinces',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'countries/%s/provinces/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'countries/%s/provinces/%s.json',
-            'resourceKey' => 'province',
-            'responseKey' => 'province',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'countries/%s/provinces/%s.json',
+                'province',
+                'province'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'countries/%s/provinces.json',
+                'provinces',
+                'provinces'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'countries/%s/provinces/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'countries/%s/provinces/%s.json',
+                'province',
+                'province'
+            )
+        );
+    }
 }

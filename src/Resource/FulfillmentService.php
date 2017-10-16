@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/fulfillmentservice
  *
@@ -14,42 +17,64 @@ namespace ShopifyClient\Resource;
 class FulfillmentService extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * FulfillmentService constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'fulfillment_services.json',
-            'resourceKey' => 'fulfillment_service',
-            'responseKey' => 'fulfillment_service',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'fulfillment_services/%s.json',
-            'resourceKey' => 'fulfillment_service',
-            'responseKey' => 'fulfillment_service',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'fulfillment_services.json',
-            'resourceKey' => 'fulfillment_services',
-            'responseKey' => 'fulfillment_services',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s/fulfillments/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'fulfillment_services/%s.json',
-            'resourceKey' => 'fulfillment_service',
-            'responseKey' => 'fulfillment_service',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'fulfillment_services/%s.json',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'fulfillment_services.json',
+                'fulfillment_service',
+                'fulfillment_service'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'fulfillment_services/%s.json',
+                'fulfillment_service',
+                'fulfillment_service'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'fulfillment_services.json',
+                'fulfillment_services',
+                'fulfillment_services'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s/fulfillments/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'fulfillment_services/%s.json',
+                'fulfillment_service',
+                'fulfillment_service'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'fulfillment_services/%s.json'
+            )
+        );
+    }
 }

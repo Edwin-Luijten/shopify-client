@@ -2,36 +2,52 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/user
  *
  * @method get(float $parentId)
- * @method all(float $parentId)
+ * @method all
  * @method current(float $parentId)
  */
 class User extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * User constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'get'     => [
-            'method'      => 'GET',
-            'endpoint'    => 'users/%s.json',
-            'resourceKey' => 'user',
-            'responseKey' => 'user',
-        ],
-        'all'     => [
-            'method'      => 'GET',
-            'endpoint'    => 'users.json',
-            'resourceKey' => 'users',
-            'responseKey' => 'users',
-        ],
-        'current' => [
-            'method'      => 'POST',
-            'endpoint'    => 'users/%s.json',
-            'resourceKey' => 'user',
-            'responseKey' => 'user',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'users/%s.json',
+                'user',
+                'user'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'users.json',
+                'users',
+                'users'
+            )
+        );
+        $this->actions->add(
+            'current',
+            new Action(
+                Request::METHOD_GET,
+                'users/%s.json',
+                'user',
+                'user'
+            )
+        );
+    }
 }

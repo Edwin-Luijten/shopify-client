@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/blog
  *
@@ -20,45 +23,70 @@ class Blog extends AbstractResource implements Resource
     /**
      * @var array
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'blogs.json',
-            'resourceKey' => 'blog',
-            'responseKey' => 'blog',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'blogs/%s.json',
-            'resourceKey' => 'blog',
-            'responseKey' => 'blog',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'blogs.json',
-            'resourceKey' => 'blogs',
-            'responseKey' => 'blogs',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'blogs/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'blogs/%s.json',
-            'resourceKey' => 'blog',
-            'responseKey' => 'blog',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'blogs/%s.json',
-        ],
-    ];
-
     protected $childResources = [
         'metafields' => BlogMetaField::class,
         'articles'   => Article::class,
     ];
+
+    /**
+     * Blog constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'blogs.json',
+                'blog',
+                'blog'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'blogs/%s.json',
+                'blog',
+                'blog'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'blogs.json',
+                'blogs',
+                'blogs'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'blogs/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'blogs/%s.json',
+                'blog',
+                'blog'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'blogs/%s.json'
+            )
+        );
+    }
 }

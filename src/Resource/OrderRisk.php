@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/order_risks
  *
@@ -16,36 +19,55 @@ namespace ShopifyClient\Resource;
 class OrderRisk extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * OrderRisk constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'orders/%s/risks.json',
-            'resourceKey' => 'risk',
-            'responseKey' => 'risk',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s/risks/%s.json',
-            'resourceKey' => 'risk',
-            'responseKey' => 'risk',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s/risks.json',
-            'resourceKey' => 'risks',
-            'responseKey' => 'risks',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'orders/%s/risks/%s.json',
-            'resourceKey' => 'risk',
-            'responseKey' => 'risk',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'orders/%s/risks/%s.json',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'orders/%s/risks.json',
+                'risk',
+                'risk'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s/risks/%s.json',
+                'risk',
+                'risk'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s/risks.json',
+                'risks',
+                'risks'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'orders/%s/risks/%s.json',
+                'risk',
+                'risk'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'orders/%s/risks/%s.json'
+            )
+        );
+    }
 }

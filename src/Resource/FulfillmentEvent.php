@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/fulfillmentevent
  *
@@ -13,30 +16,47 @@ namespace ShopifyClient\Resource;
 class FulfillmentEvent extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * FulfillmentEvent constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'orders/%s/fulfillments/%s/events.json',
-            'resourceKey' => 'event',
-            'responseKey' => 'fulfillment_event',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s/fulfillments/%s/events/%s.json',
-            'resourceKey' => 'fulfillment_event',
-            'responseKey' => 'fulfillment_event',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s/fulfillments/%s/events.json',
-            'resourceKey' => 'fulfillment_events',
-            'responseKey' => 'fulfillment_events',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'orders/%s/fulfillments/%s/events/%s.json',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'orders/%s/fulfillments/%s/events.json',
+                'fulfillment_event',
+                'event'
+
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s/fulfillments/%s/events/%s.json',
+                'fulfillment_event',
+                'fulfillment_event'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s/fulfillments/%s/events.json',
+                'fulfillment_events',
+                'fulfillment_events'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'orders/%s/fulfillments/%s/events/%s.json'
+            )
+        );
+    }
 }

@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Action\ActionCollection;
+use ShopifyClient\Action\ActionInterface;
 use ShopifyClient\Exception\ClientException;
 use ShopifyClient\Request;
 
@@ -13,7 +16,7 @@ abstract class AbstractResource
     protected $request;
 
     /**
-     * @var array
+     * @var ActionCollection
      */
     protected $actions = [];
 
@@ -29,20 +32,17 @@ abstract class AbstractResource
     public function __construct(Request $request)
     {
         $this->request = $request;
+        $this->actions = new ActionCollection();
     }
 
     /**
      * @param string $action
-     * @return array
+     * @return ActionInterface
      * @throws ClientException
      */
-    public function getAction(string $action): array
+    public function getAction(string $action): ActionInterface
     {
-        if (!$this->hasAction($action)) {
-            throw new ClientException(sprintf('Action: %s not found on resource. ', $action, get_called_class()));
-        }
-
-        return $this->actions[$action];
+        return $this->actions->get($action);
     }
 
     /**
@@ -59,7 +59,7 @@ abstract class AbstractResource
      */
     public function hasAction(string $action): bool
     {
-        if (!isset($this->actions[$action])) {
+        if (!$this->actions->has($action)) {
             return false;
         }
 
@@ -89,17 +89,19 @@ abstract class AbstractResource
         float $childChildId = null,
         array $parameters = []
     ) {
-        $this->request->setResponseKey($this->getResponseKey($action));
+        $action = $this->getAction($action);
+
+        $this->request->setResponseKey($action->getResponseKey());
 
         return $this->request->request(
-            $this->getMethod($action),
+            $action->getMethod(),
             $this->getEndpoint($action, $parentId, $childId, $childChildId),
             $this->getRequestOptions($action, $parameters)
         );
     }
 
     /**
-     * @param string $action
+     * @param Action $action
      * @param float|null $parentId
      * @param float|null $childId
      * @param float|null $childChildId
@@ -107,75 +109,23 @@ abstract class AbstractResource
      * @throws ClientException
      */
     protected function getEndpoint(
-        string $action,
+        Action $action,
         float $parentId = null,
         float $childId = null,
         float $childChildId = null
     ): string {
-        $actionData = $this->getAction($action);
-
-        if (!isset($actionData['endpoint'])) {
-            throw new ClientException(sprintf('Endpoint key not set for action: %s.', $action));
-        }
-
-        return sprintf($actionData['endpoint'], $parentId, $childId, $childChildId);
+        return sprintf($action->getEndpoint(), $parentId, $childId, $childChildId);
     }
 
     /**
-     * @param string $action
-     * @return string
-     * @throws ClientException
-     */
-    protected function getMethod(string $action): string
-    {
-        $actionData = $this->getAction($action);
-
-        if (!isset($actionData['method'])) {
-            throw new ClientException(sprintf('Method key not set for action: %s.', $action));
-        }
-
-        return $actionData['method'];
-    }
-
-    /**
-     * @param string $action
-     * @return string
-     */
-    protected function getResourceKey(string $action): string
-    {
-        $actionData = $this->getAction($action);
-
-        if (!isset($actionData['resourceKey'])) {
-            return '';
-        }
-
-        return $actionData['resourceKey'];
-    }
-
-    /**
-     * @param string $action
-     * @return string
-     */
-    protected function getResponseKey(string $action): string
-    {
-        $actionData = $this->getAction($action);
-
-        if (!isset($actionData['responseKey'])) {
-            return '';
-        }
-
-        return $actionData['responseKey'];
-    }
-
-    /**
-     * @param string $action
+     * @param Action $action
      * @param array $parameters
      * @return array
      */
-    private function getRequestOptions(string $action, array $parameters): array
+    private function getRequestOptions(Action $action, array $parameters): array
     {
-        $method      = $this->getMethod($action);
-        $resourceKey = $this->getResourceKey($action);
+        $method      = $action->getMethod();
+        $resourceKey = $action->getResourceKey();
 
         if ($method === 'POST' || $method === 'PUT') {
             return strlen($resourceKey) < 1 ? [] : ['body' => json_encode([$resourceKey => $parameters])];

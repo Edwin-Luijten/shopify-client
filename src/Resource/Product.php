@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/product
  *
@@ -21,49 +24,71 @@ class Product extends AbstractResource implements Resource
     /**
      * @var array
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'products.json',
-            'resourceKey' => 'product',
-            'responseKey' => 'product',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'products/%s.json',
-            'resourceKey' => 'product',
-            'responseKey' => 'product',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'products.json',
-            'resourceKey' => 'products',
-            'responseKey' => 'products',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'products/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'products/%s.json',
-            'resourceKey' => 'product',
-            'responseKey' => 'product',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'products/%s.json',
-        ],
-    ];
-
-    /**
-     * @var array
-     */
     protected $childResources = [
         'metafields' => ProductMetaField::class,
         'variants'   => ProductVariant::class,
         'images'     => ProductImage::class,
     ];
+
+    /**
+     * Product constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'products.json',
+                'product',
+                'product'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'products/%s.json',
+                'product',
+                'product'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'products.json',
+                'products',
+                'products'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'products/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'products/%s.json',
+                'product',
+                'product'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'products/%s.json'
+            )
+        );
+    }
 }

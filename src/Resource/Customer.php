@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/customer
  *
@@ -20,55 +23,88 @@ class Customer extends AbstractResource implements Resource
     /**
      * @var array
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'customers.json',
-            'resourceKey' => 'customer',
-            'responseKey' => 'customer',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'customers/%s.json',
-            'resourceKey' => 'customer',
-            'responseKey' => 'customer',
-        ],
-        'search' => [
-            'method'      => 'GET',
-            'endpoint'    => 'customers/search.json',
-            'responseKey' => 'customers',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'customers.json',
-            'resourceKey' => 'customers',
-            'responseKey' => 'customers',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'customers/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'customers/%s.json',
-            'resourceKey' => 'customer',
-            'responseKey' => 'customer',
-        ],
-        'orders' => [
-            'method'      => 'GET',
-            'endpoint'    => 'customers/%s/orders.json',
-            'responseKey' => 'orders',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'customers/%s.json',
-        ],
-    ];
-
     protected $childResources = [
         'metafields' => CustomerMetaField::class,
         'addresses'  => CustomerAddress::class,
     ];
+
+    /**
+     * Customer constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'customers.json',
+                'customer',
+                'customer'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'customers/%s.json',
+                'customer',
+                'customer'
+            )
+        );
+        $this->actions->add(
+            'search',
+            new Action(
+                Request::METHOD_GET,
+                'customers/search.json',
+                'customers',
+                'customers'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'customers.json',
+                'customers',
+                'customers'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'customers/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'customers/%s.json',
+                'customer',
+                'customer'
+            )
+        );
+        $this->actions->add(
+            'orders',
+            new Action(
+                Request::METHOD_GET,
+                'customers/%s/orders.json',
+                'orders',
+                'orders'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'customers/%s.json'
+            )
+        );
+    }
 }

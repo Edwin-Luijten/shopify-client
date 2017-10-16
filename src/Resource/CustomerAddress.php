@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/customeraddress
  *
@@ -14,36 +17,55 @@ namespace ShopifyClient\Resource;
 class CustomerAddress extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * CustomerAddress constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'customers/%s/addresses.json',
-            'resourceKey' => 'address',
-            'responseKey' => 'customer_address',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'customers/%s/addresses/%s.json',
-            'resourceKey' => 'customer_address',
-            'responseKey' => 'customer_address',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'customers/%s/addresses.json',
-            'resourceKey' => 'addresses',
-            'responseKey' => 'addresses',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'customers/%s/addresses/%s.json',
-            'resourceKey' => 'address',
-            'responseKey' => 'customer_address',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'customers/%s/addresses/%s.json',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'customers/%s/addresses.json',
+                'customer_address',
+                'address'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'customers/%s/addresses/%s.json',
+                'customer_address',
+                'customer_address'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'customers/%s/addresses.json',
+                'addresses',
+                'addresses'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'customers/%s/addresses/%s.json',
+                'customer_address',
+                'address'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'customers/%s/addresses/%s.json'
+            )
+        );
+    }
 }

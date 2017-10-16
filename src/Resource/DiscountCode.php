@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/discountcode
  *
@@ -19,60 +22,91 @@ namespace ShopifyClient\Resource;
 class DiscountCode extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * DiscountCode constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'price_rules/%s/discount_codes.json',
-            'resourceKey' => 'discount_code',
-            'responseKey' => 'discount_code',
-        ],
-        'createBatch' => [
-            'method'      => 'POST',
-            'endpoint'    => 'price_rules/%s/batch.json',
-            'resourceKey' => 'discount_codes',
-            'responseKey' => 'discount_code_creation',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'price_rules/%s/discount_codes/%s.json',
-            'resourceKey' => 'discount_code',
-            'responseKey' => 'discount_code',
-        ],
-        'getBatch'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'price_rules/%s/batch/%s.json',
-            'resourceKey' => 'discount_code_creation',
-            'responseKey' => 'discount_code_creation',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'price_rules/%s/discount_codes.json',
-            'resourceKey' => 'discount_codes',
-            'responseKey' => 'discount_codes',
-        ],
-        'allBatch' => [
-            'method'      => 'GET',
-            'endpoint'    => 'price_rules/%s/batch/%s/discount_codes.json',
-            'resourceKey' => 'discount_codes',
-            'responseKey' => 'discount_codes',
-        ],
-        'lookup' => [
-            'method'      => 'GET',
-            'endpoint'    => 'discount_codes/lookup.json',
-            'resourceKey' => 'discount_code',
-            'responseKey' => 'discount_code',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'price_rules/%s/discount_codes/%s.json',
-            'resourceKey' => 'discount_code',
-            'responseKey' => 'discount_code',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'price_rules/%s/discount_codes/%s.json',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'price_rules/%s/discount_codes.json',
+                'discount_code',
+                'discount_code'
+            )
+        );
+        $this->actions->add(
+            'createBatch',
+            new Action(
+                Request::METHOD_POST,
+                'price_rules/%s/batch.json',
+                'discount_code_creation',
+                'discount_codes'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'price_rules/%s/discount_codes/%s.json',
+                'discount_code',
+                'discount_code'
+            )
+        );
+        $this->actions->add(
+            'getBatch',
+            new Action(
+                Request::METHOD_GET,
+                'price_rules/%s/batch/%s.json',
+                'discount_code_creation',
+                'discount_code_creation'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'price_rules/%s/discount_codes.json',
+                'discount_codes',
+                'discount_codes'
+            )
+        );
+        $this->actions->add(
+            'allBatch',
+            new Action(
+                Request::METHOD_GET,
+                'price_rules/%s/batch/%s/discount_codes.json',
+                'discount_codes',
+                'discount_codes'
+            )
+        );
+        $this->actions->add(
+            'lookup',
+            new Action(
+                Request::METHOD_GET,
+                'discount_codes/lookup.json',
+                'discount_code',
+                'discount_code'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'price_rules/%s/discount_codes/%s.json',
+                'discount_code',
+                'discount_code'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'price_rules/%s/discount_codes/%s.json'
+            )
+        );
+    }
 }

@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/order
  *
@@ -24,61 +27,100 @@ class Order extends AbstractResource implements Resource
     /**
      * @var array
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'orders.json',
-            'resourceKey' => 'order',
-            'responseKey' => 'order',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s.json',
-            'resourceKey' => 'order',
-            'responseKey' => 'order',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders.json',
-            'resourceKey' => 'orders',
-            'responseKey' => 'orders',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'orders/%s.json',
-            'resourceKey' => 'order',
-            'responseKey' => 'order',
-        ],
-        'open'   => [
-            'method'      => 'POST',
-            'endpoint'    => 'orders/%s/open.json',
-            'responseKey' => 'order',
-        ],
-        'close'  => [
-            'method'      => 'POST',
-            'endpoint'    => 'orders/%s/close.json',
-            'responseKey' => 'order',
-        ],
-        'cancel' => [
-            'method'      => 'POST',
-            'endpoint'    => 'orders/%s/cancel.json',
-            'responseKey' => 'order',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'orders/%s.json',
-        ],
-    ];
-
     protected $childResources = [
         'metafields'   => OrderMetaField::class,
         'risks'        => OrderRisk::class,
         'fulfillments' => Fulfillment::class,
     ];
+
+    /**
+     * Order constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'orders.json',
+                'order',
+                'order'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s.json',
+                'order',
+                'order'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'orders.json',
+                'orders',
+                'orders'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'orders/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'orders/%s.json',
+                'order',
+                'order'
+            )
+        );
+        $this->actions->add(
+            'open',
+            new Action(
+                Request::METHOD_POST,
+                'orders/%s/open.json',
+                'order',
+                'order'
+            )
+        );
+        $this->actions->add(
+            'close',
+            new Action(
+                Request::METHOD_POST,
+                'orders/%s/close.json',
+                'order',
+                'order'
+            )
+        );
+        $this->actions->add(
+            'cancel',
+            new Action(
+                Request::METHOD_POST,
+                'orders/%s/cancel.json',
+                'order',
+                'order'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'orders/%s.json'
+            )
+        );
+    }
+
+
 }

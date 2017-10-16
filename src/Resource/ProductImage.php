@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/product_image
  *
@@ -15,42 +18,64 @@ namespace ShopifyClient\Resource;
 class ProductImage extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * ProductImage constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'products/%s/images.json',
-            'resourceKey' => 'image',
-            'responseKey' => 'image',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'products/%s/images/%s.json',
-            'resourceKey' => 'image',
-            'responseKey' => 'image',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'products/%s/images.json',
-            'resourceKey' => 'images',
-            'responseKey' => 'images',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'products/%s/images/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'products/%s/images/%s.json',
-            'resourceKey' => 'image',
-            'responseKey' => 'image',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'products/%s/images/%s.json',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'products/%s/images.json',
+                'image',
+                'image'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'products/%s/images/%s.json',
+                'image',
+                'image'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'products/%s/images.json',
+                'images',
+                'images'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'products/%s/images/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'products/%s/images/%s.json',
+                'image',
+                'image'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'products/%s/images/%s.json'
+            )
+        );
+    }
 }

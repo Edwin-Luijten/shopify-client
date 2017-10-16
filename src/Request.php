@@ -9,6 +9,10 @@ use ShopifyClient\Exception\ShopifyException;
 class Request
 {
     const API_CALL_LIMIT_HEADER = 'http_x_shopify_shop_api_call_limit';
+    const METHOD_POST = 'POST';
+    const METHOD_GET = 'GET';
+    const METHOD_PUT = 'PUT';
+    const METHOD_DELETE = 'DELETE';
 
     /**
      * @var ClientInterface

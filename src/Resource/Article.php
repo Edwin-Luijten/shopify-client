@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/article
  *
@@ -22,56 +25,87 @@ class Article extends AbstractResource implements Resource
     /**
      * @var array
      */
-    protected $actions = [
-        'create'  => [
-            'method'      => 'POST',
-            'endpoint'    => 'blogs/%s/articles.json',
-            'resourceKey' => 'article',
-            'responseKey' => 'article',
-        ],
-        'get'     => [
-            'method'      => 'GET',
-            'endpoint'    => 'blogs/%s/articles/%s.json',
-            'resourceKey' => 'article',
-            'responseKey' => 'article',
-        ],
-        'all'     => [
-            'method'      => 'GET',
-            'endpoint'    => 'blogs/%s/articles.json',
-            'resourceKey' => 'articles',
-            'responseKey' => 'articles',
-        ],
-        'count'   => [
-            'method'      => 'GET',
-            'endpoint'    => 'blogs/%s/articles/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update'  => [
-            'method'      => 'PUT',
-            'endpoint'    => 'blogs/%s/articles/%s.json',
-            'resourceKey' => 'article',
-            'responseKey' => 'article',
-        ],
-        'tags'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'blogs/%s/articles/tags.json',
-            'resourceKey' => 'tags',
-            'responseKey' => 'tags',
-        ],
-        'authors' => [
-            'method'      => 'GET',
-            'endpoint'    => 'articles/authors.json',
-            'resourceKey' => 'authors',
-            'responseKey' => 'authors',
-        ],
-        'delete'  => [
-            'method'   => 'DELETE',
-            'endpoint' => 'blogs/%s/articles/%s.json',
-        ],
-    ];
-
     protected $childResources = [
         'metafields' => ArticleMetaField::class,
     ];
+
+    /**
+     * Article constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'blogs/%s/articles.json',
+                'article',
+                'article'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'blogs/%s/articles/%s.json',
+                'article',
+                'article'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'blogs/%s/articles.json',
+                'articles',
+                'articles'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'blogs/%s/articles/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'blogs/%s/articles/%s.json',
+                'article',
+                'article'
+            )
+        );
+        $this->actions->add(
+            'tags',
+            new Action(
+                Request::METHOD_GET,
+                'blogs/%s/articles/tags.json',
+                'tags',
+                'tags'
+            )
+        );
+        $this->actions->add(
+            'authors',
+            new Action(
+                Request::METHOD_GET,
+                'articles/authors.json',
+                'authors',
+                'authors'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'blogs/%s/articles/%s.json'
+            )
+        );
+    }
 }

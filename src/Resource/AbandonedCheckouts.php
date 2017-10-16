@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/abandoned_checkouts
  *
@@ -11,20 +14,30 @@ namespace ShopifyClient\Resource;
 class AbandonedCheckouts extends AbstractResource implements Resource
 {
     /**
-     * @var array
+     * AbandonedCheckouts constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'checkouts.json',
-            'resourceKey' => 'checkouts',
-            'responseKey' => 'checkouts',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'checkouts/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'checkouts.json',
+                'checkouts',
+                'checkouts'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'checkouts/count.json',
+                'count',
+                'count'
+            )
+        );
+    }
 }

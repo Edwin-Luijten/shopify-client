@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * @method create(float $parentId, array $parameters = [])
  * @method get(float $parentId, float $childId, array $parameters = [])
@@ -13,42 +16,64 @@ namespace ShopifyClient\Resource;
 class OrderMetaField extends MetaField implements Resource
 {
     /**
-     * @var array
+     * OrderMetaField constructor.
+     * @param Request $request
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'orders/%s/metafields.json',
-            'resourceKey' => 'metafield',
-            'responseKey' => 'metafield',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s/metafields/%s.json',
-            'resourceKey' => 'metafield',
-            'responseKey' => 'metafield',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s/metafields.json',
-            'resourceKey' => 'metafields',
-            'responseKey' => 'metafields',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'orders/%s/metafields/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'orders/%s/metafields/%s.json',
-            'resourceKey' => 'metafield',
-            'responseKey' => 'metafield',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'orders/%s/metafields/%s.json',
-        ],
-    ];
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'orders/%s/metafields.json',
+                'metafield',
+                'metafield'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s/metafields/%s.json',
+                'metafield',
+                'metafield'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s/metafields.json',
+                'metafields',
+                'metafields'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'orders/%s/metafields/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'orders/%s/metafields/%s.json',
+                'metafield',
+                'metafield'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'orders/%s/metafields/%s.json'
+            )
+        );
+    }
 }

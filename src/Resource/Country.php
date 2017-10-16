@@ -2,6 +2,9 @@
 
 namespace ShopifyClient\Resource;
 
+use ShopifyClient\Action\Action;
+use ShopifyClient\Request;
+
 /**
  * https://help.shopify.com/api/reference/country
  *
@@ -17,47 +20,69 @@ class Country extends AbstractResource implements Resource
     /**
      * @var array
      */
-    protected $actions = [
-        'create' => [
-            'method'      => 'POST',
-            'endpoint'    => 'countries.json',
-            'resourceKey' => 'country',
-            'responseKey' => 'country',
-        ],
-        'get'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'countries/%s.json',
-            'resourceKey' => 'country',
-            'responseKey' => 'country',
-        ],
-        'all'    => [
-            'method'      => 'GET',
-            'endpoint'    => 'countries.json',
-            'resourceKey' => 'countries',
-            'responseKey' => 'countries',
-        ],
-        'count'  => [
-            'method'      => 'GET',
-            'endpoint'    => 'countries/count.json',
-            'resourceKey' => 'count',
-            'responseKey' => 'count',
-        ],
-        'update' => [
-            'method'      => 'PUT',
-            'endpoint'    => 'countries/%s.json',
-            'resourceKey' => 'country',
-            'responseKey' => 'country',
-        ],
-        'delete' => [
-            'method'   => 'DELETE',
-            'endpoint' => 'countries/%s.json',
-        ],
-    ];
-
-    /**
-     * @var array
-     */
     protected $childResources = [
         'provinces' => Province::class,
     ];
+
+    /**
+     * Country constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+
+        $this->actions->add(
+            'create',
+            new Action(
+                Request::METHOD_POST,
+                'countries.json',
+                'country',
+                'country'
+            )
+        );
+        $this->actions->add(
+            'get',
+            new Action(
+                Request::METHOD_GET,
+                'countries/%s.json',
+                'country',
+                'country'
+            )
+        );
+        $this->actions->add(
+            'all',
+            new Action(
+                Request::METHOD_GET,
+                'countries.json',
+                'countries',
+                'countries'
+            )
+        );
+        $this->actions->add(
+            'count',
+            new Action(
+                Request::METHOD_GET,
+                'countries/count.json',
+                'count',
+                'count'
+            )
+        );
+        $this->actions->add(
+            'update',
+            new Action(
+                Request::METHOD_PUT,
+                'countries/%s.json',
+                'country',
+                'country'
+            )
+        );
+        $this->actions->add(
+            'delete',
+            new Action(
+                Request::METHOD_DELETE,
+                'countries/%s.json'
+            )
+        );
+    }
 }
