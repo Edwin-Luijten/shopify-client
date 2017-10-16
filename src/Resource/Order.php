@@ -41,85 +41,15 @@ class Order extends AbstractResource implements Resource
     {
         parent::__construct($request);
 
-        $this->actions->add(
-            'create',
-            new Action(
-                Request::METHOD_POST,
-                'orders.json',
-                'order',
-                'order'
-            )
-        );
-        $this->actions->add(
-            'get',
-            new Action(
-                Request::METHOD_GET,
-                'orders/%s.json',
-                'order',
-                'order'
-            )
-        );
-        $this->actions->add(
-            'all',
-            new Action(
-                Request::METHOD_GET,
-                'orders.json',
-                'orders',
-                'orders'
-            )
-        );
-        $this->actions->add(
-            'count',
-            new Action(
-                Request::METHOD_GET,
-                'orders/count.json',
-                'count',
-                'count'
-            )
-        );
-        $this->actions->add(
-            'update',
-            new Action(
-                Request::METHOD_PUT,
-                'orders/%s.json',
-                'order',
-                'order'
-            )
-        );
-        $this->actions->add(
-            'open',
-            new Action(
-                Request::METHOD_POST,
-                'orders/%s/open.json',
-                'order',
-                'order'
-            )
-        );
-        $this->actions->add(
-            'close',
-            new Action(
-                Request::METHOD_POST,
-                'orders/%s/close.json',
-                'order',
-                'order'
-            )
-        );
-        $this->actions->add(
-            'cancel',
-            new Action(
-                Request::METHOD_POST,
-                'orders/%s/cancel.json',
-                'order',
-                'order'
-            )
-        );
-        $this->actions->add(
-            'delete',
-            new Action(
-                Request::METHOD_DELETE,
-                'orders/%s.json'
-            )
-        );
+        $this->actions->add('create', new Action(Request::METHOD_POST, 'orders.json', 'order', 'order'));
+        $this->actions->add('get', new Action(Request::METHOD_GET, 'orders/%s.json', 'order', 'order'));
+        $this->actions->add('all', new Action(Request::METHOD_GET, 'orders.json', 'orders', 'orders'));
+        $this->actions->add('count', new Action(Request::METHOD_GET, 'orders/count.json', 'count', 'count'));
+        $this->actions->add('update', new Action(Request::METHOD_PUT, 'orders/%s.json', 'order', 'order'));
+        $this->actions->add('open', new Action(Request::METHOD_POST, 'orders/%s/open.json', 'order', 'order'));
+        $this->actions->add('close', new Action(Request::METHOD_POST, 'orders/%s/close.json', 'order', 'order'));
+        $this->actions->add('cancel', new Action(Request::METHOD_POST, 'orders/%s/cancel.json', 'order', 'order'));
+        $this->actions->add('delete', new Action(Request::METHOD_DELETE, 'orders/%s.json'));
     }
 
 
