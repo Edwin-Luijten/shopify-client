@@ -36,77 +36,13 @@ class Fulfillment extends AbstractResource implements Resource
     {
         parent::__construct($request);
 
-        $this->actions->add(
-            'create',
-            new Action(
-                Request::METHOD_POST,
-                'orders/%s/fulfillments.json',
-                'fulfillment',
-                'fulfillment'
-            )
-        );
-        $this->actions->add(
-            'get',
-            new Action(
-                Request::METHOD_GET,
-                'orders/%s/fulfillments/%s.json',
-                'fulfillment',
-                'fulfillment'
-            )
-        );
-        $this->actions->add(
-            'all',
-            new Action(
-                Request::METHOD_GET,
-                'orders/%s/fulfillments.json',
-                'fulfillments',
-                'fulfillments'
-            )
-        );
-        $this->actions->add(
-            'count',
-            new Action(
-                Request::METHOD_GET,
-                'orders/%s/fulfillments/count.json',
-                'count',
-                'count'
-            )
-        );
-        $this->actions->add(
-            'update',
-            new Action(
-                Request::METHOD_PUT,
-                'orders/%s/fulfillments/%s.json',
-                'fulfillment',
-                'fulfillment'
-            )
-        );
-        $this->actions->add(
-            'complete',
-            new Action(
-                Request::METHOD_POST,
-                'orders/%s/fulfillments/%s/complete.json',
-                'fulfillment',
-                'fulfillment'
-            )
-        );
-        $this->actions->add(
-            'open',
-            new Action(
-                Request::METHOD_POST,
-                'orders/%s/fulfillments/%s/open.json',
-                'fulfillment',
-                'fulfillment'
-            )
-        );
-        $this->actions->add(
-            'cancel',
-            new Action(
-                Request::METHOD_POST,
-                'orders/%s/fulfillments/%s/cancel.json',
-                'fulfillment',
-                'fulfillment'
-            )
-        );
+        $this->actions->add('create', new Action(Request::METHOD_POST, 'orders/%s/fulfillments.json', 'fulfillment', 'fulfillment'));
+        $this->actions->add('get', new Action(Request::METHOD_GET, 'orders/%s/fulfillments/%s.json', 'fulfillment', 'fulfillment'));
+        $this->actions->add('all', new Action(Request::METHOD_GET, 'orders/%s/fulfillments.json', 'fulfillments', 'fulfillments'));
+        $this->actions->add('count', new Action(Request::METHOD_GET, 'orders/%s/fulfillments/count.json', 'count', 'count'));
+        $this->actions->add('update', new Action(Request::METHOD_PUT, 'orders/%s/fulfillments/%s.json', 'fulfillment', 'fulfillment'));
+        $this->actions->add('complete', new Action(Request::METHOD_POST, 'orders/%s/fulfillments/%s/complete.json', 'fulfillment', 'fulfillment'));
+        $this->actions->add('open', new Action(Request::METHOD_POST, 'orders/%s/fulfillments/%s/open.json', 'fulfillment', 'fulfillment'));
+        $this->actions->add('cancel', new Action(Request::METHOD_POST, 'orders/%s/fulfillments/%s/cancel.json', 'fulfillment', 'fulfillment'));
     }
 }
