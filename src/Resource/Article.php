@@ -37,75 +37,13 @@ class Article extends AbstractResource implements Resource
     {
         parent::__construct($request);
 
-        $this->actions->add(
-            'create',
-            new Action(
-                Request::METHOD_POST,
-                'blogs/%s/articles.json',
-                'article',
-                'article'
-            )
-        );
-        $this->actions->add(
-            'get',
-            new Action(
-                Request::METHOD_GET,
-                'blogs/%s/articles/%s.json',
-                'article',
-                'article'
-            )
-        );
-        $this->actions->add(
-            'all',
-            new Action(
-                Request::METHOD_GET,
-                'blogs/%s/articles.json',
-                'articles',
-                'articles'
-            )
-        );
-        $this->actions->add(
-            'count',
-            new Action(
-                Request::METHOD_GET,
-                'blogs/%s/articles/count.json',
-                'count',
-                'count'
-            )
-        );
-        $this->actions->add(
-            'update',
-            new Action(
-                Request::METHOD_PUT,
-                'blogs/%s/articles/%s.json',
-                'article',
-                'article'
-            )
-        );
-        $this->actions->add(
-            'tags',
-            new Action(
-                Request::METHOD_GET,
-                'blogs/%s/articles/tags.json',
-                'tags',
-                'tags'
-            )
-        );
-        $this->actions->add(
-            'authors',
-            new Action(
-                Request::METHOD_GET,
-                'articles/authors.json',
-                'authors',
-                'authors'
-            )
-        );
-        $this->actions->add(
-            'delete',
-            new Action(
-                Request::METHOD_DELETE,
-                'blogs/%s/articles/%s.json'
-            )
-        );
+        $this->actions->add('create', new Action(Request::METHOD_POST, 'blogs/%s/articles.json', 'article', 'article'));
+        $this->actions->add('get', new Action(Request::METHOD_GET, 'blogs/%s/articles/%s.json', 'article', 'article'));
+        $this->actions->add('all', new Action(Request::METHOD_GET, 'blogs/%s/articles.json', 'articles', 'articles'));
+        $this->actions->add('count', new Action(Request::METHOD_GET, 'blogs/%s/articles/count.json', 'count', 'count'));
+        $this->actions->add('update', new Action(Request::METHOD_PUT, 'blogs/%s/articles/%s.json', 'article', 'article'));
+        $this->actions->add('tags', new Action(Request::METHOD_GET, 'blogs/%s/articles/tags.json', 'tags', 'tags'));
+        $this->actions->add('authors', new Action(Request::METHOD_GET, 'articles/authors.json', 'authors', 'authors'));
+        $this->actions->add('delete', new Action(Request::METHOD_DELETE, 'blogs/%s/articles/%s.json'));
     }
 }

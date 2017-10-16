@@ -36,75 +36,13 @@ class Customer extends AbstractResource implements Resource
     {
         parent::__construct($request);
 
-        $this->actions->add(
-            'create',
-            new Action(
-                Request::METHOD_POST,
-                'customers.json',
-                'customer',
-                'customer'
-            )
-        );
-        $this->actions->add(
-            'get',
-            new Action(
-                Request::METHOD_GET,
-                'customers/%s.json',
-                'customer',
-                'customer'
-            )
-        );
-        $this->actions->add(
-            'search',
-            new Action(
-                Request::METHOD_GET,
-                'customers/search.json',
-                'customers',
-                'customers'
-            )
-        );
-        $this->actions->add(
-            'all',
-            new Action(
-                Request::METHOD_GET,
-                'customers.json',
-                'customers',
-                'customers'
-            )
-        );
-        $this->actions->add(
-            'count',
-            new Action(
-                Request::METHOD_GET,
-                'customers/count.json',
-                'count',
-                'count'
-            )
-        );
-        $this->actions->add(
-            'update',
-            new Action(
-                Request::METHOD_PUT,
-                'customers/%s.json',
-                'customer',
-                'customer'
-            )
-        );
-        $this->actions->add(
-            'orders',
-            new Action(
-                Request::METHOD_GET,
-                'customers/%s/orders.json',
-                'orders',
-                'orders'
-            )
-        );
-        $this->actions->add(
-            'delete',
-            new Action(
-                Request::METHOD_DELETE,
-                'customers/%s.json'
-            )
-        );
+        $this->actions->add('create', new Action(Request::METHOD_POST, 'customers.json', 'customer', 'customer'));
+        $this->actions->add('get', new Action(Request::METHOD_GET, 'customers/%s.json', 'customer', 'customer'));
+        $this->actions->add('search', new Action(Request::METHOD_GET, 'customers/search.json', 'customers', 'customers'));
+        $this->actions->add('all', new Action(Request::METHOD_GET, 'customers.json', 'customers', 'customers'));
+        $this->actions->add('count', new Action(Request::METHOD_GET, 'customers/count.json', 'count', 'count'));
+        $this->actions->add('update', new Action(Request::METHOD_PUT, 'customers/%s.json', 'customer', 'customer'));
+        $this->actions->add('orders', new Action(Request::METHOD_GET, 'customers/%s/orders.json', 'orders', 'orders'));
+        $this->actions->add('delete', new Action(Request::METHOD_DELETE, 'customers/%s.json'));
     }
 }
