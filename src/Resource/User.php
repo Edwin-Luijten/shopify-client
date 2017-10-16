@@ -22,32 +22,8 @@ class User extends AbstractResource implements Resource
     {
         parent::__construct($request);
 
-        $this->actions->add(
-            'get',
-            new Action(
-                Request::METHOD_GET,
-                'users/%s.json',
-                'user',
-                'user'
-            )
-        );
-        $this->actions->add(
-            'all',
-            new Action(
-                Request::METHOD_GET,
-                'users.json',
-                'users',
-                'users'
-            )
-        );
-        $this->actions->add(
-            'current',
-            new Action(
-                Request::METHOD_GET,
-                'users/%s.json',
-                'user',
-                'user'
-            )
-        );
+        $this->actions->add('get', new Action(Request::METHOD_GET, 'users/%s.json', 'user', 'user'));
+        $this->actions->add('all', new Action(Request::METHOD_GET, 'users.json', 'users', 'users'));
+        $this->actions->add('current', new Action(Request::METHOD_GET, 'users/%s.json', 'user', 'user'));
     }
 }

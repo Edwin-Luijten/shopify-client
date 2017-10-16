@@ -23,41 +23,9 @@ class Province extends AbstractResource implements Resource
     {
         parent::__construct($request);
 
-        $this->actions->add(
-            'get',
-            new Action(
-                Request::METHOD_GET,
-                'countries/%s/provinces/%s.json',
-                'province',
-                'province'
-            )
-        );
-        $this->actions->add(
-            'all',
-            new Action(
-                Request::METHOD_GET,
-                'countries/%s/provinces.json',
-                'provinces',
-                'provinces'
-            )
-        );
-        $this->actions->add(
-            'count',
-            new Action(
-                Request::METHOD_GET,
-                'countries/%s/provinces/count.json',
-                'count',
-                'count'
-            )
-        );
-        $this->actions->add(
-            'update',
-            new Action(
-                Request::METHOD_PUT,
-                'countries/%s/provinces/%s.json',
-                'province',
-                'province'
-            )
-        );
+        $this->actions->add('get', new Action(Request::METHOD_GET, 'countries/%s/provinces/%s.json', 'province', 'province'));
+        $this->actions->add('all', new Action(Request::METHOD_GET, 'countries/%s/provinces.json', 'provinces', 'provinces'));
+        $this->actions->add('count', new Action(Request::METHOD_GET, 'countries/%s/provinces/count.json', 'count', 'count'));
+        $this->actions->add('update', new Action(Request::METHOD_PUT, 'countries/%s/provinces/%s.json', 'province', 'province'));
     }
 }
