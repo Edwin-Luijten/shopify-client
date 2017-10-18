@@ -58,7 +58,7 @@ class Action implements ActionInterface
     /**
      * @return string
      */
-    public function getMethod(): string
+    public function getMethod()
     {
         return $this->method;
     }
@@ -66,7 +66,7 @@ class Action implements ActionInterface
     /**
      * @return string
      */
-    public function getEndpoint(): string
+    public function getEndpoint()
     {
         return $this->endpoint;
     }
