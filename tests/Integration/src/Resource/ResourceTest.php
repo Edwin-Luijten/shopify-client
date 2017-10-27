@@ -1,8 +1,8 @@
 <?php
 
-namespace ShopifyClient\Tests\Resource;
+namespace ShopifyClient\Tests\Integration\Resource;
 
-use ShopifyClient\Tests\BaseTest;
+use ShopifyClient\Tests\Integration\BaseTest;
 
 class ResourceTest extends BaseTest
 {

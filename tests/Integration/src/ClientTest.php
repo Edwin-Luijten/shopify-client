@@ -1,12 +1,12 @@
 <?php
 
-namespace ShopifyClient\Tests;
+namespace ShopifyClient\Tests\Integration;
 
 use ShopifyClient\Client;
 use ShopifyClient\Config;
 use ShopifyClient\Resource\Resource;
-use ShopifyClient\Tests\Stubs\InvalidResourceClassEndpoint;
-use ShopifyClient\Tests\Stubs\InvalidResourceClassMethod;
+use ShopifyClient\Tests\Integration\Stubs\InvalidResourceClassEndpoint;
+use ShopifyClient\Tests\Integration\Stubs\InvalidResourceClassMethod;
 
 class ClientTest extends BaseTest
 {

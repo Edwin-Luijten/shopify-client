@@ -24,7 +24,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ShopifyClient\\Tests\\": "tests/src/"
+            "ShopifyClient\\Tests\\Integration\\": "tests/Integration/src"
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyClient\Tests\Resource;
+namespace ShopifyClient\Tests\Integration\Resource;
 
 class CustomersTest extends SimpleResource
 {

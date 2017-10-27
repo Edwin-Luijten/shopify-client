@@ -1,18 +1,18 @@
 <?php
 
-namespace ShopifyClient\Tests\Stubs;
+namespace ShopifyClient\Tests\Integration\Stubs;
 
 use ShopifyClient\Resource\AbstractResource;
 use ShopifyClient\Resource\Resource;
 
-class InvalidResourceClassMethod extends AbstractResource implements Resource {
+class InvalidResourceClassEndpoint extends AbstractResource implements Resource {
     /**
      * @var array
      */
     protected $actions = [
         'create' => [
-            'metho'      => 'POST',
-            'endpoint'    => 'products.json',
+            'method'      => 'POST',
+            'endpoin'    => 'products.json',
             'resourceKey' => 'product',
         ],
     ];

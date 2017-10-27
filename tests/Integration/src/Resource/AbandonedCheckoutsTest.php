@@ -1,9 +1,9 @@
 <?php
 
-namespace ShopifyClient\Tests\Resource;
+namespace ShopifyClient\Tests\Resource\Integration;
 
 use ShopifyClient\Request;
-use ShopifyClient\Tests\BaseTest;
+use ShopifyClient\Tests\Integration\BaseTest;
 
 class AbandonedCheckoutsTest extends BaseTest
 {

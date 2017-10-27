@@ -21,8 +21,8 @@
              target="./build/coverage/log/coverage.xml"/>
     </logging>
     <testsuites>
-        <testsuite name="Package Test Suite">
-            <directory suffix=".php">./tests/</directory>
+        <testsuite name="Integration">
+            <directory suffix=".php">./tests/Integration</directory>
         </testsuite>
     </testsuites>
     <filter>

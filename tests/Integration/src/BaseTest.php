@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyClient\Tests;
+namespace ShopifyClient\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use ShopifyClient\Client;

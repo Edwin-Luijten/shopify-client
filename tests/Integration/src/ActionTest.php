@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyClient\Tests;
+namespace ShopifyClient\Tests\Integration;
 
 use ShopifyClient\Action\Action;
 

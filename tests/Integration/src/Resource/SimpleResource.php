@@ -1,9 +1,9 @@
 <?php
 
-namespace ShopifyClient\Tests\Resource;
+namespace ShopifyClient\Tests\Integration\Resource;
 
 use ShopifyClient\Request;
-use ShopifyClient\Tests\BaseTest;
+use ShopifyClient\Tests\Integration\BaseTest;
 
 abstract class SimpleResource extends BaseTest
 {
