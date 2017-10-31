@@ -2,9 +2,9 @@
 
 [![Latest Version](https://img.shields.io/github/release/edwin-luijten/shopify-client.svg?style=flat)](https://github.com/Edwin-Luijten/shopify-client/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/Edwin-Luijten/shopify-client/develop.svg?style=flat-square)](https://travis-ci.org/Edwin-Luijten/shopify-client)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Edwin-Luijten/shopify-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/Edwin-Luijten/shopify-client/?branch=develop)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Edwin-Luijten/shopify-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/Edwin-Luijten/shopify-client/?branch=develop)
+[![Build Status](https://img.shields.io/travis/Edwin-Luijten/shopify-client/master.svg?style=flat-square)](https://travis-ci.org/Edwin-Luijten/shopify-client)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Edwin-Luijten/shopify-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/Edwin-Luijten/shopify-client/?branch=master)
+[![Quality Score](https://img.shields.io/scrutinizer/g/Edwin-Luijten/shopify-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/Edwin-Luijten/shopify-client/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/edwin-luijten/shopify-client.svg?style=flat-square)](https://packagist.org/packages/edwin-luijten/shopify-client)
 
 This package provides a client to communicate with the [Shopify](https://help.shopify.com/api/getting-started) api.
