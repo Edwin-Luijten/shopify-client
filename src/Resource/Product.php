@@ -10,7 +10,7 @@ use ShopifyClient\Request;
  *
  * @method create(array $parameters = [])
  * @method get(float $parentId)
- * @method all(float $parentId)
+ * @method all(array $parameters = [])
  * @method count(array $parameters = [])
  * @method update(float $parentId, array $parameters = [])
  * @method delete(float $parentId)
